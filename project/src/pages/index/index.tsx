@@ -5,7 +5,7 @@ function Index(): JSX.Element {
 
   return (
     //wrapper куда вставить?
-    <div className="wrapper">
+    <>
       <Header />
       <main>
         <div className="hero">
@@ -181,7 +181,7 @@ function Index(): JSX.Element {
         </section>
       </main>
       <Footer />
-    </div>
+    </>
   );
 }
 

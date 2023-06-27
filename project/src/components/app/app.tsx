@@ -5,11 +5,11 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 import Index from '../../pages/index';
-import SignUp from '../../pages/sign-up/sign-up';
-import LogIn from '../../pages/log-in/log-in';
+import Login from '../../pages/login/login';
 import Catalog from '../../pages/catalog/catalog';
 import ProductPage from '../../pages/product-page/product-page';
 import Favourites from '../../pages/favourites/favourites';
+import RegisterPage from '../../pages/register-page/register-page';
 
 function App(): JSX.Element {
 
@@ -17,8 +17,8 @@ function App(): JSX.Element {
     <HistoryRouter history={browserHistory}>
       <Routes>
         <Route path={AppRoute.Index} element={<Index />} />
-        <Route path={AppRoute.SignUp} element={<SignUp />} />
-        <Route path={AppRoute.logIn} element={<LogIn />} />
+        <Route path={AppRoute.SignUp} element={<RegisterPage />} />
+        <Route path={AppRoute.logIn} element={<Login />} />
         <Route path={AppRoute.Catalog} element={<Catalog />} />
         <Route path={AppRoute.ProductPage} element={<ProductPage />} />
         <Route path={AppRoute.Favourites} element={<Favourites />} />
