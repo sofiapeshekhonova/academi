@@ -1,9 +1,5 @@
-// import { Link, Navigate } from 'react-router-dom';
-// import { getAuthorizationStatus } from '../../store/user/selectors';
-// import { useAppSelector } from '../../hooks';
-// import SignInForm from '../../components/sign-in-form/sign-in-form';
-// import Footer from '../../components/footer/footer';
-// import { AppRoute, AuthorizationStatus } from '../../constants';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../constants';
 
 function RegisterPage(): JSX.Element {
   // const authStatus = useAppSelector(getAuthorizationStatus);
@@ -51,7 +47,9 @@ function RegisterPage(): JSX.Element {
               <button className="btn register-page__btn btn--large" type="submit">Зарегистрироваться</button>
             </form>
           </div>
-          <p className="register-page__text-wrap">Уже зарегистрированы? <a className="register-page__link" href="login-page.html">Войдите</a> в свой аккаунт.</p>
+          <p className="register-page__text-wrap">Уже зарегистрированы?
+            <Link to={AppRoute.logIn} className="register-page__link">Войдите </Link> в свой аккаунт.
+          </p>
         </div>
       </div>
     </section>
