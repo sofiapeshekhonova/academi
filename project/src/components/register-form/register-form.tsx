@@ -1,5 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { AuthData } from '../../types/auth-data';
+import { AuthDataRegister } from '../../types/auth-data';
+import { registrationAction } from '../../store/api-actions';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getRegisterStatus } from '../../store/user/selectors';
+import { Status } from '../../constants';
 
 type Props = {
   value: string;
@@ -14,33 +18,34 @@ type FormProps = {
 }
 
 function RegisterForm() {
-
+  const dispatch = useAppDispatch();
+  const registerStatus = useAppSelector(getRegisterStatus);
   const [formValue, setFormValue] = useState<FormProps>({
     email: {
       value: '',
       isValid: false,
-      error: 'Please enter a valid email address',
+      error: 'Введите валидную почту',
       regex: /[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/,
       hasValue: false,
     },
     password: {
       value: '',
       isValid: false,
-      error: 'At least one letter and number',
+      error: 'Пароль должен содержать одну буву и цифру',
       regex: /\d+[a-zA-Z]+|[a-zA-Z]+\d+/,
       hasValue: false,
     },
     name: {
       value: '',
       isValid: false,
-      error: 'At least one letter',
-      regex: /\d+[a-zA-Z]+|[a-zA-Z]+\d+/,
+      error: 'Должно быть больше 1 буквы',
+      regex: /^.{1,20}$/,
       hasValue: false,
     },
     img: {
       value: '',
       isValid: false,
-      error: 'Please enter',
+      error: 'Загрузите валидное изображение png|jpg',
       // Для загрузки доступно изображение не более 100 на 100 пикселей, размер менее 1 мб
       regex: /^[^?#]+\.(png|jpg|jpe?g)([?#].*)?$/i,
       //'~https?://[\S.]+(?:jpg|jpeg|png)\b~'
@@ -59,24 +64,31 @@ function RegisterForm() {
     });
   }
 
-  const onSubmit = (authData: AuthData) => {
-    //dispatch(loginAction(authData));
+  const onSubmit = (authData: AuthDataRegister) => {
+    dispatch(registrationAction(authData));
   };
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     onSubmit({
       login: formValue.email.value,
-      password: formValue.password.value
+      password: formValue.password.value,
+      name: formValue.name.value,
+      img: formValue.img.value
     });
   }
-
+  const errorEmail = !formValue.email.isValid && formValue.email.hasValue;
+  const errorName = !formValue.name.isValid && formValue.name.hasValue;
+  const errorPassword = !formValue.password.isValid && formValue.password.hasValue;
+  //const errorEmail = !formValue.email.isValid && formValue.email.hasValue;
   return(
     <form action="#" method="post" autoComplete="off" onSubmit={handleSubmit}>
       <div className="register-page__fields">
         <div className="custom-input register-page__field">
           <label>
-            <span className="custom-input__label">Введите ваше имя</span>
+            <span className={`${errorName ? 'custom-input__message' : 'custom-input__label'}`} style={{ paddingRight: '30px' }}>
+              {errorName ? formValue.name.error : 'Введите ваше имя'}
+            </span>
             <input type="text" name="name"
               placeholder="Имя" required
               id="password"
@@ -88,7 +100,9 @@ function RegisterForm() {
         </div>
         <div className="custom-input register-page__field">
           <label>
-            <span className="custom-input__label">Введите вашу почту</span>
+            <span className={`${errorEmail ? 'custom-input__message' : 'custom-input__label'}`} style={{ paddingRight: '30px' }}>
+              {errorEmail ? formValue.email.error : 'Введите вашу почту'}
+            </span>
             <input
               type="email" name="email"
               placeholder="Почта" required
@@ -99,7 +113,9 @@ function RegisterForm() {
         </div>
         <div className="custom-input register-page__field">
           <label>
-            <span className="custom-input__label">Введите ваш пароль</span>
+            <span className={`${errorPassword ? 'custom-input__message' : 'custom-input__label'}`} style={{ paddingRight: '30px' }}>
+              {errorPassword ? formValue.password.error : 'Введите ваш пароль'}
+            </span>
             <input type="password" name="password"
               placeholder="Пароль" required
               minLength={2}
@@ -110,7 +126,7 @@ function RegisterForm() {
         </div>
         <div className="custom-input register-page__field">
           <label>
-            <span className="custom-input__label">Введите ваше имя</span>
+            <span className="custom-input__label">Загрузите аватар</span>
             <input type="file"
               name="user-name-1"
               data-text="Аватар"
@@ -121,7 +137,12 @@ function RegisterForm() {
           </label>
         </div>
       </div>
-      <button className="btn register-page__btn btn--large" type="submit">Зарегистрироваться</button>
+      <button className="btn register-page__btn btn--large" type="submit"
+        disabled={!(formValue.email.isValid && formValue.password.isValid && formValue.name.isValid)
+         || registerStatus === Status.Loading || registerStatus === Status.Failed}
+      >
+        {registerStatus === Status.Loading ? 'Загрузка..' : 'Зарегистрироваться'}
+      </button>
     </form>
   );
 }

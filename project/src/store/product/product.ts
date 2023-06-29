@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Namespace, Status } from '../../constants';
-import { fetchActiveProductAction, fetchProductCommentsAction } from '../api-actions';
+import { fetchActiveProductAction, fetchProductCommentsAction, postProductCommentsAction } from '../api-actions';
 import { ActiveProduct } from '../../types/product';
 import { ReviewsType } from '../../types/review';
 
@@ -9,6 +9,8 @@ export type ProductData = {
   status: Status;
   commentsStatus: Status;
   comments: ReviewsType[];
+  comment: ReviewsType[];
+  commentStatus: Status;
 };
 
 const initialState: ProductData = {
@@ -16,6 +18,8 @@ const initialState: ProductData = {
   status: Status.Idle,
   commentsStatus: Status.Idle,
   comments: [],
+  comment: [],
+  commentStatus: Status.Idle,
 };
 
 export const product = createSlice({
@@ -38,11 +42,21 @@ export const product = createSlice({
         state.commentsStatus = Status.Loading;
       })
       .addCase(fetchProductCommentsAction.fulfilled, (state, action) => {
-        state.status = Status.Success;
+        state.commentsStatus = Status.Success;
         state.comments = action.payload;
       })
       .addCase(fetchProductCommentsAction.rejected, (state) => {
         state.commentsStatus = Status.Failed;
+      })
+      .addCase(postProductCommentsAction.pending, (state) => {
+        state.commentStatus = Status.Loading;
+      })
+      .addCase(postProductCommentsAction.fulfilled, (state, action) => {
+        state.commentStatus = Status.Success;
+        state.comment = action.payload;
+      })
+      .addCase(postProductCommentsAction.rejected, (state) => {
+        state.commentStatus = Status.Failed;
       });
   }
 });

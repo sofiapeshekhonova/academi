@@ -1,18 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AuthorizationStatus, Namespace, Status } from '../../constants';
-import { checkAuthAction, loginAction, logoutAction } from '../api-actions';
+import { checkAuthAction, loginAction, logoutAction, registrationAction } from '../api-actions';
 import { UserData } from '../../types/user/user';
 
 type InitialState = {
   AuthorizationStatus: string;
   status: Status;
   userInformation: UserData | null;
+  statusRegistration: Status;
+  userRegistrationInformation: UserData | null;
 };
 
 const initialState: InitialState = {
   AuthorizationStatus: AuthorizationStatus.Unknown,
   status: Status.Idle,
   userInformation: null,
+  statusRegistration: Status.Idle,
+  userRegistrationInformation: null
 };
 
 
@@ -30,6 +34,19 @@ export const userProcess = createSlice({
         state.userInformation = action.payload;
       })
       .addCase(checkAuthAction.rejected, (state) => {
+        state.AuthorizationStatus = AuthorizationStatus.NoAuth;
+      })
+      .addCase(registrationAction.pending, (state) => {
+        state.statusRegistration = Status.Loading;
+        state.AuthorizationStatus = AuthorizationStatus.Unknown;
+      })
+      .addCase(registrationAction.fulfilled, (state, action) => {
+        state.statusRegistration = Status.Success;
+        state.AuthorizationStatus = AuthorizationStatus.Auth;
+        state.userRegistrationInformation = action.payload;
+      })
+      .addCase(registrationAction.rejected, (state) => {
+        state.statusRegistration = Status.Failed;
         state.AuthorizationStatus = AuthorizationStatus.NoAuth;
       })
       .addCase(loginAction.pending, (state) => {

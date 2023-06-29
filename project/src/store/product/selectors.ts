@@ -8,3 +8,6 @@ export const getActiveProductStatus = (state: State): Status=> state[Namespace.A
 
 export const getComments = (state: State): ReviewsType[] => state[Namespace.ActiveProduct].comments;
 export const getCommentsStatus = (state: State): Status=> state[Namespace.ActiveProduct].commentsStatus;
+
+export const postComment = (state: State): ReviewsType[] => state[Namespace.ActiveProduct].comment;
+export const getCommentStatus = (state: State): Status=> state[Namespace.ActiveProduct].commentStatus;

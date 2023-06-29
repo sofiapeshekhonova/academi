@@ -10,3 +10,8 @@ export type ReviewsType = {
   rating: number;
 }
 
+export type CommentType = {
+  rating: number;
+  comment: string;
+  id: number;
+}

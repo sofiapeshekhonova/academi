@@ -22,7 +22,8 @@ export enum APIRoute {
   Products = '/v0/keks/products',
   Comments = '/v0/keks/reviews/',
   Login = '/v0/keks/users/login',
-  Logout = '/v0/keks/users/logout'
+  Logout = '/v0/keks/users/logout',
+  Registration = '/v0/keks/users/registration'
 }
 
 export enum AuthorizationStatus {

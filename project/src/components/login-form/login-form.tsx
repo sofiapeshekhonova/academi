@@ -1,5 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { AuthData } from '../../types/auth-data';
+import { loginAction } from '../../store/api-actions';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { Status } from '../../constants';
+import { getStatus } from '../../store/user/selectors';
 
 type Props = {
   value: string;
@@ -14,19 +18,20 @@ type FormProps = {
 }
 
 function LoginForm() {
-
+  const dispatch = useAppDispatch();
+  const loginStatus = useAppSelector(getStatus);
   const [formValue, setFormValue] = useState<FormProps>({
     email: {
       value: '',
       isValid: false,
-      error: 'Please enter a valid email address',
+      error: 'Введите почту',
       regex: /[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/,
       hasValue: false,
     },
     password: {
       value: '',
       isValid: false,
-      error: 'At least one letter and number',
+      error: 'Должен содержать одну букву и цифру',
       regex: /\d+[a-zA-Z]+|[a-zA-Z]+\d+/,
       hasValue: false,
     },
@@ -44,7 +49,7 @@ function LoginForm() {
   }
 
   const onSubmit = (authData: AuthData) => {
-    // dispatch(loginAction(authData));
+    dispatch(loginAction(authData));
   };
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -54,12 +59,17 @@ function LoginForm() {
       password: formValue.password.value
     });
   }
+
+  const error = !formValue.email.isValid && formValue.email.hasValue;
+  const errorPassword = !formValue.password.isValid && formValue.password.hasValue;
   return (
-    <form action="#" method="post" autoComplete="off" onSubmit={handleSubmit}>
+    <form action="#" method="post" autoComplete="off" onSubmit={handleSubmit} noValidate>
       <div className="login-page__fields">
         <div className="custom-input login-page__field">
           <label>
-            <span className="custom-input__label">Введите вашу почту</span>
+            <span className={`${error ? 'custom-input__message' : 'custom-input__label'}`} style={{ paddingRight: '30px' }}>
+              {error ? formValue.email.error : 'Введите вашу почту'}
+            </span>
             <input
               type="email" name="email"
               placeholder="Почта" required
@@ -70,7 +80,9 @@ function LoginForm() {
         </div>
         <div className="custom-input login-page__field">
           <label>
-            <span className="custom-input__label">Введите ваш пароль</span>
+            <span className={`${errorPassword ? 'custom-input__message' : 'custom-input__label'}`} style={{ paddingRight: '40px' }}>
+              {!errorPassword ? formValue.password.error : 'Введите ваш пароль'}
+            </span>
             <input type="password" name="password"
               placeholder="Пароль" required
               minLength={2}
@@ -80,7 +92,12 @@ function LoginForm() {
           </label>
         </div>
       </div>
-      <button className="btn login-page__btn btn--large" type="submit">Войти</button>
+      <button className="btn login-page__btn btn--large" type="submit"
+        disabled={!(formValue.email.isValid && formValue.password.isValid)
+          || loginStatus === Status.Loading || loginStatus === Status.Failed}
+      >
+        {loginStatus === Status.Loading ? 'Загрузка..' : 'Войти'}
+      </button>
     </form>
   );
 }
