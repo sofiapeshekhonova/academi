@@ -8,17 +8,20 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchActiveProductAction, fetchProductCommentsAction } from '../../store/api-actions';
 import { getActiveProduct, getComments } from '../../store/product/selectors';
-import { SortCards } from '../../constants';
+import { AuthorizationStatus, SortCards } from '../../constants';
 import { getSortComments } from '../../store/app/selectors';
 import EmptyProductFilterResult from '../../components/empty-product-filter-result/empty-product-filter-result';
 import Comments from '../../components/comments/comments';
 import EmptyReviewResults from '../../components/empty-review-results/empty-review-results';
 import './product-page.css';
+import { getAuthorizationStatus } from '../../store/user/selectors';
 
 function ProductPage(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const productId = useParams().id;
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+
   let x: string;
   if (productId === undefined) {
     x = '1';
@@ -46,7 +49,7 @@ function ProductPage(): JSX.Element {
     }
     ///тут еще добавить если общика в загрузке /* <ProductCommentsError /> */
   };
-
+console.log(comments)
   return (
     <>
       <Header />
@@ -64,8 +67,7 @@ function ProductPage(): JSX.Element {
           </div>
         </div>
         {product !== null && <ProductDetails product={product} />}
-        {/* нет ревью формы если не зареган */}
-        <ReviewForm />
+        {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />}
         {showComments()}
       </main>
       <Footer />

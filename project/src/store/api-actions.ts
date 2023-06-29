@@ -3,7 +3,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
 import { APIRoute, AppRoute } from '../constants';
 import { ActiveProduct, Product } from '../types/product.js';
-import { CommentType, ReviewsType } from '../types/review.js';
+import { CommentType, ReviewsPostType, ReviewsType } from '../types/review.js';
 import { UserData } from '../types/user/user.js';
 import { AuthData, AuthDataRegister } from '../types/auth-data.js';
 import { dropToken, saveToken } from '../services/token';
@@ -45,13 +45,14 @@ export const fetchProductCommentsAction = createAsyncThunk<ReviewsType[], string
 );
 
 
-export const postProductCommentsAction = createAsyncThunk<ReviewsType[], CommentType, {
+export const postProductCommentsAction = createAsyncThunk<ReviewsPostType[], CommentType, {
   state: State;
   extra: AxiosInstance;
 }>(
   'room/postProductCommentsAction',
-  async ({ id, rating, comment }, { extra: api }) => {
-    const { data } = await api.post<ReviewsType[]>(`${APIRoute.Comments}/${id}`, { rating, comment });
+  async ({ id, positive, negative, rating }, { extra: api }) => {
+    const x = Number(rating);
+    const { data } = await api.post<ReviewsPostType[]>(`${APIRoute.Comments}/${id}`, { positive, negative, rating: x });
     return data;
   }
 );

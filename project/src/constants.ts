@@ -64,6 +64,14 @@ export const STARS = [
   { id: 1, rating: 4 },
 ];
 
+export const STARSS = [
+  { id: 5, name: 'Rating 5' },
+  { id: 4, name: 'Rating 4' },
+  { id: 3, name: 'Rating 3' },
+  { id: 2, name: 'Rating 2' },
+  { id: 1, name: 'Rating 1' },
+];
+
 export const SortRatingList = [
   'Любой', 'Высокий', 'Низкий'
 ];

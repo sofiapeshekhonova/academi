@@ -2,14 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Namespace, Status } from '../../constants';
 import { fetchActiveProductAction, fetchProductCommentsAction, postProductCommentsAction } from '../api-actions';
 import { ActiveProduct } from '../../types/product';
-import { ReviewsType } from '../../types/review';
+import { ReviewsPostType, ReviewsType } from '../../types/review';
 
 export type ProductData = {
   product: ActiveProduct | null;
   status: Status;
   commentsStatus: Status;
   comments: ReviewsType[];
-  comment: ReviewsType[];
+  comment: ReviewsPostType[];
   commentStatus: Status;
 };
 

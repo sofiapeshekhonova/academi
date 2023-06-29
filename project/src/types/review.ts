@@ -12,6 +12,14 @@ export type ReviewsType = {
 
 export type CommentType = {
   rating: number;
-  comment: string;
-  id: number;
+  positive: string;
+  negative : string;
+  id: string;
+}
+
+export type ReviewsPostType = {
+  id: string;
+  positive: string;
+  negative: string;
+  rating: number;
 }
