@@ -12,6 +12,7 @@ function Index(): JSX.Element {
   const products = useAppSelector(getProducts);
   const productsCopy = products.slice(0);
   const productsStarus = useAppSelector(getStatus);
+
   const sortedProducts = SortProducts(productsCopy);
 
   return (
@@ -94,7 +95,7 @@ function Index(): JSX.Element {
               </li>
               <li className="map__address">
                 <div className="custom-toggle custom-toggle--radio custom-toggle--address">
-                  <input type="radio" value="user-agreement-12" id="user-agreement-id-12" name="user-agreement" checked />
+                  {/* <input type="radio" value="user-agreement-12" id="user-agreement-id-12" name="user-agreement" checked /> */}
                   <label className="custom-toggle__label" htmlFor="user-agreement-id-12">Кондитерская 2</label>
                   <address className="custom-toggle__address">Морской пр. 2А
                     <svg className="custom-toggle__icon" width="26" height="24" aria-hidden="true">

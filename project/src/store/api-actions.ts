@@ -2,8 +2,8 @@ import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {State} from '../types/state.js';
 import { APIRoute } from '../constants';
-import { Product } from '../types/product.js';
-// import { Card } from '../types/offer.js';
+import { ActiveProduct, Product } from '../types/product.js';
+import { ReviewsType } from '../types/review.js';
 // import { dropToken, saveToken } from '../services/token';
 // import { redirectToRoute } from './action';
 
@@ -18,27 +18,27 @@ export const fetchProductsAction = createAsyncThunk<Product[], undefined, {
   },
 );
 
-// export const fetchActiveOfferAction = createAsyncThunk<Card, number, {
-//   state: State;
-//   extra: AxiosInstance;
-// }>(
-//   'data/fetchActiveOffer',
-//   async (offerId, { extra: api }) => {
-//     const { data } = await api.get<Card>(`${APIRoute.Hotels}/${offerId}`);
-//     return data;
-//   },
-// );
+export const fetchActiveProductAction = createAsyncThunk<ActiveProduct, string, {
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchActiveProduct',
+  async (productId, { extra: api }) => {
+    const { data } = await api.get<ActiveProduct>(`${APIRoute.Products}/${productId}`);
+    return data;
+  },
+);
 
-// export const fetchRoomCommentsAction = createAsyncThunk<ReviewsType[], number, {
-//   state: State;
-//   extra: AxiosInstance;
-// }>(
-//   'room/fetchRoomCommentsAction',
-//   async (offerId, { extra: api }) => {
-//     const { data } = await api.get<ReviewsType[]>(`${APIRoute.Comments}/${offerId}`);
-//     return data;
-//   }
-// );
+export const fetchProductCommentsAction = createAsyncThunk<ReviewsType[], string, {
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'room/fetchProductCommentsAction',
+  async (productId, { extra: api }) => {
+    const { data } = await api.get<ReviewsType[]>(`${APIRoute.Comments}/${productId}`);
+    return data;
+  }
+);
 
 // export const postRoomCommentsAction = createAsyncThunk<ReviewsType[], CommentType, {
 //   state: State;

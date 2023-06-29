@@ -1,29 +1,25 @@
 import { Link } from 'react-router-dom';
-//import { AppRoute } from '../../constants';
 import { Product } from '../../types/product';
 
-type Props = {
+type PropsType ={
   product: Product;
 }
 
-function ProductItem({ product }: Props) {
+function CatalogItem({product}: PropsType) {
   const { id } = product;
   const productId = `/ProductPage/${id}`;
 
   const buttonClassName = product.isFavorite === true ? 'card-item__favorites card-item__favorites--active' : 'card-item__favorites';
   const buttonText = product.isFavorite === true ? 'Добавить в избранное' : 'Удалить из избранного';
+
   return (
-    <li className="random-main__item">
-      <div className="card-item">
+    <li className="catalog__item">
+      <div className="card-item card-item--big">
         <Link to={productId} className="card-item__img-link">
           <div className="card-item__img-wrapper">
             <picture>
               <source type="image/webp" srcSet={product.previewImageWebp} />
-              {/* <source type="image/webp" srcSet="img/content/blueberry-cake.webp, img/content/blueberry-cake@2x.webp 2x" /> */}
-              <img src={product.previewImageWebp}
-                // srcSet="img/content/blueberry-cake@2x.jpg 2x"
-                srcSet={product.previewImageWebp} width="241" height="245" alt={product.title}
-              />
+              <img src={product.previewImageWebp} srcSet={product.previewImageWebp} width="326" height="332" alt="Торт голубика." />
             </picture>
           </div>
           {product.isNew === true ? <span className="card-item__label">Новинка</span> : ''}
@@ -34,6 +30,7 @@ function ProductItem({ product }: Props) {
             <use xlinkHref="#icon-like"></use>
           </svg>
         </button>
+        <span className="card-item__price">{product.price} p</span>
         <Link to={productId} className="card-item__link">
           <h3 className="card-item__title"><span>{product.title}</span></h3>
         </Link>
@@ -42,4 +39,4 @@ function ProductItem({ product }: Props) {
   );
 }
 
-export default ProductItem;
+export default CatalogItem;

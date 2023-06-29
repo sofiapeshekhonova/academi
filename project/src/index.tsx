@@ -7,7 +7,6 @@ import { store } from './store';
 import { fetchProductsAction } from './store/api-actions';
 
 store.dispatch(fetchProductsAction());
-
 // import 'react-toastify/dist/ReactToastify.css';
 
 const root = ReactDOM.createRoot(

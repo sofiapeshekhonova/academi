@@ -16,11 +16,11 @@ function App(): JSX.Element {
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>
+        <Route path={AppRoute.ProductPage} element={<ProductPage />} />
         <Route path={AppRoute.Index} element={<Index />} />
         <Route path={AppRoute.SignUp} element={<RegisterPage />} />
         <Route path={AppRoute.logIn} element={<Login />} />
         <Route path={AppRoute.Catalog} element={<Catalog />} />
-        <Route path={AppRoute.ProductPage} element={<ProductPage />} />
         <Route path={AppRoute.Favourites} element={<Favourites />} />
         {/* <Route path={AppRoute.Film} element={<Film />}>
           <Route path={AppRoute.Info} element={<Film />} />

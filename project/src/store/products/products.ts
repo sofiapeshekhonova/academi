@@ -2,14 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Namespace, Status } from '../../constants';
 import { fetchProductsAction } from '../api-actions';
 import { Product } from '../../types/product';
-//import { Card } from '../../types/offer';
 
-export type OffersData = {
+export type ProductsData = {
   products: Product[];
   status: Status;
 };
 
-const initialState: OffersData = {
+const initialState: ProductsData = {
   products: [],
   status: Status.Idle,
 };

@@ -1,4 +1,24 @@
-function ProductDetails() {
+import { useEffect, useState } from 'react';
+import { STARS } from '../../constants';
+import { ActiveProduct } from '../../types/product';
+import Rating from '../rating/rating';
+
+type PropsType = {
+  product: ActiveProduct;
+}
+
+function ProductDetails({ product }: PropsType) {
+  const [length, setLength] = useState(140);
+  const [description, setDescription] = useState(product.description);
+
+  useEffect(()=> {
+    setDescription(product.description.slice(0, length));
+  }, [length, product.description]);
+
+  function handleMoreDescroptionButton() {
+    setLength(product.description.length);
+  }
+
   return (
     // если нет коментариев или информация по кексам не найдена
     // <section className="item-details">
@@ -6,45 +26,37 @@ function ProductDetails() {
       <div className="container">
         <div className="item-details__wrapper">
           <div className="item-details__top-wrapper">
-            <h2 className="item-details__name">Чизкейк Лимонный</h2>
-            <span className="item-details__price">4 100 р</span>
+            <h2 className="item-details__name">{product.title}</h2>
+            <span className="item-details__price">{product.price} р</span>
           </div>
           <div className="item-details__weight-wrapper">
-            <span className="item-details__weight">1 300 грамм</span>
+            <span className="item-details__weight">{product.weight} грамм</span>
           </div>
           <div className="item-details__bottom-wrapper">
             <div className="item-details__image-wrapper">
               <picture>
-                <source type="image/webp" srcSet="img/content/lemon-pie.webp, img/content/lemon-pie@2x.webp 2x" />
-                <img src="img/content/lemon-pie.jpg" srcSet="img/content/lemon-pie@2x.jpg 2x" width="241" height="245" alt="Чизкейк лимонный" />
-              </picture><span className="item-details__label">Новинка</span>
+                <source type="image/webp" srcSet={product.previewImageWebp} />
+                <img src={product.previewImageWebp} srcSet={product.previewImageWebp} width="241" height="245" alt={product.title} />
+              </picture>
+              {product.isNew ? <span className="item-details__label">Новинка</span> : ''}
             </div>
             <div className="item-details__review-wrapper">
               <div className="star-rating star-rating--big">
-                <svg className="star-rating__star star-rating__star--active" width="30" height="30" aria-hidden="true">
-                  <use xlinkHref="#icon-star"></use>
-                </svg>
-                <svg className="star-rating__star star-rating__star--active" width="30" height="30" aria-hidden="true">
-                  <use xlinkHref="#icon-star"></use>
-                </svg>
-                <svg className="star-rating__star star-rating__star--active" width="30" height="30" aria-hidden="true">
-                  <use xlinkHref="#icon-star"></use>
-                </svg>
-                <svg className="star-rating__star star-rating__star--active" width="30" height="30" aria-hidden="true">
-                  <use xlinkHref="#icon-star"></use>
-                </svg>
-                <svg className="star-rating__star star-rating__star--active" width="30" height="30" aria-hidden="true">
-                  <use xlinkHref="#icon-star"></use>
-                </svg><span className="star-rating__count">26</span>
+                {STARS.map((star) => (
+                  <Rating key={star.id} rating={product.rating} star={star.rating} starId={star.id}/>
+                ))}
+                <span className="star-rating__count">{product.reviewCount}</span>
               </div>
               <div className="item-details__text-wrapper">
-                <span className="item-details__text">Цитрусовый десерт с тонким сливочным вкусом, лёгкой свежестью и низким содержанием калорий сд</span>
-                <button className="item-details__more">
-                  <span className="visually-hidden">Читать полностью</span>
-                  <svg width="27" height="17" aria-hidden="true">
-                    <use xlinkHref="#icon-more"></use>
-                  </svg>
-                </button>
+                <span className="item-details__text">{description}</span>
+                {}
+                {product.description.length > 140 && product.description.length !== length &&
+                  <button className="item-details__more" onClick={handleMoreDescroptionButton}>
+                    <span className="visually-hidden">Читать полностью</span>
+                    <svg width="27" height="17" aria-hidden="true">
+                      <use xlinkHref="#icon-more"></use>
+                    </svg>
+                  </button> }
               </div>
               <div className="item-details__button-wrapper">
                 <button className="item-details__like-button">
