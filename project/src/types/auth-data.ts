@@ -1,10 +1,10 @@
 export type AuthData = {
-  login: string;
+  email: string;
   password: string;
 };
 
 export type AuthDataRegister = {
-  login: string;
+  email: string;
   password: string;
   name: string;
   img: string;

@@ -55,7 +55,7 @@ function LoginForm() {
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     onSubmit({
-      login: formValue.email.value,
+      email: formValue.email.value,
       password: formValue.password.value
     });
   }

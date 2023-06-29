@@ -71,7 +71,7 @@ function RegisterForm() {
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     onSubmit({
-      login: formValue.email.value,
+      email: formValue.email.value,
       password: formValue.password.value,
       name: formValue.name.value,
       img: formValue.img.value

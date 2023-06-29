@@ -1,15 +1,17 @@
-import { Link } from 'react-router-dom';
-import { AppRoute } from '../../constants';
+import { Link, Navigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../../constants';
 import LoginForm from '../../components/login-form/login-form';
+import { useAppSelector } from '../../hooks';
+import { getAuthorizationStatus } from '../../store/user/selectors';
 
 function Login(): JSX.Element {
-  // const authStatus = useAppSelector(getAuthorizationStatus);
+  const authStatus = useAppSelector(getAuthorizationStatus);
 
-  // if (authStatus === AuthorizationStatus.Auth) {
-  //   return (
-  //     <Navigate to={AppRoute.Main} />
-  //   );
-  // }
+  if (authStatus === AuthorizationStatus.Auth) {
+    return (
+      <Navigate to={AppRoute.Index} />
+    );
+  }
 
   return (
     <section className="login-page">
