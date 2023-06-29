@@ -5,7 +5,7 @@ import Header from '../../components/header/header';
 import ProductDetails from '../../components/product-details/product-details';
 import ReviewForm from '../../components/review-form/review-form';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { Link, NavLink, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { fetchActiveProductAction, fetchProductCommentsAction } from '../../store/api-actions';
 import { getActiveProduct, getComments } from '../../store/product/selectors';
 import { SortCards } from '../../constants';

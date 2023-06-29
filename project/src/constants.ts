@@ -14,12 +14,15 @@ export enum AppRoute {
 export enum Namespace {
   Products = 'PRODUCTS',
   ActiveProduct = 'PRODUCT',
-  App = 'APP'
+  App = 'APP',
+  User = 'USER'
 }
 
 export enum APIRoute {
   Products = '/v0/keks/products',
   Comments = '/v0/keks/reviews/',
+  Login = '/v0/keks/users/login',
+  Logout = '/v0/keks/users/logout'
 }
 
 export enum AuthorizationStatus {
@@ -53,15 +56,15 @@ export const SortProducts = (arr: Product[]) => {
 };
 
 export const STARS = [
-  { id: 5, rating: 0},
-  { id: 4, rating: 1},
-  { id: 3, rating: 2},
-  { id: 2, rating: 3},
-  { id: 1, rating: 4},
+  { id: 5, rating: 0 },
+  { id: 4, rating: 1 },
+  { id: 3, rating: 2 },
+  { id: 2, rating: 3 },
+  { id: 1, rating: 4 },
 ];
 
 export const SortRatingList = [
-  'Любой','Высокий','Низкий'
+  'Любой', 'Высокий', 'Низкий'
 ];
 
 export function SortCards(comments: ReviewsType[], sortListItem: string) {
@@ -91,14 +94,14 @@ export function SortCards(comments: ReviewsType[], sortListItem: string) {
 // }
 
 
-export const CatalogSecondFilterListEn = ['vegetarian','new-york','lemon','vanilla'];
+export const CatalogSecondFilterListEn = ['vegetarian', 'new-york', 'lemon', 'vanilla'];
 
 
 export const CatalogSecondFilterList = [
-  { ru: 'Вегетарианский', en: 'vegetarian'},
-  { ru: 'Нью-Йорк', en: 'new-york'},
-  { ru: 'Лимонный', en: 'lemon'},
-  { ru: 'Ваниль', en: 'vanilla'},
+  { ru: 'Вегетарианский', en: 'vegetarian' },
+  { ru: 'Нью-Йорк', en: 'new-york' },
+  { ru: 'Лимонный', en: 'lemon' },
+  { ru: 'Ваниль', en: 'vanilla' },
 ];
 
 export const CatalogFilterList = ['Бисквит', 'Десерт', 'Чизкейк', 'Песочное'];
@@ -154,4 +157,50 @@ export const CatalogList = [
     ]
   }
 ];
+
+
+export const URL_MARKER_RED_FOOTPRINT = '/img/stack/icon-pin.svg';
+export const URL_MARKER_YELLOW_FOOTPRINT = '/img/stack/icon-keks-footprint.svg';
+
+export const PLACES = [
+  {
+    id: 1,
+    location: {
+      address: 'Морской пр. 2А',
+      name: 'Кондитерская 1',
+      'latitude': 59.942345,
+      'longitude': 30.297553,
+      zoom: 4,
+    },
+  },
+  {
+    id: 2,
+    location: {
+      address: 'Большой пр. 2А',
+      name: 'Производство',
+      'latitude': 59.940396,
+      'longitude': 30.313804,
+      zoom: 4,
+    },
+  },
+  {
+    id: 3,
+    location: {
+      address: 'Малый пр. 2А',
+      name: 'Кондитерская 2',
+      'latitude': 59.949071,
+      'longitude': 30.317879,
+      zoom: 4,
+    },
+  },
+];
+
+export const CITY = {
+  'name': 'Saint-Petersburg',
+  'location': {
+    'latitude': 59.93863,
+    'longitude': 30.31413,
+    'zoom': 13
+  }
+};
 
