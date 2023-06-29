@@ -1,4 +1,3 @@
-// import CatalogNotFound from '../../components/catalog-not-found/catalog-not-found';
 import { useState } from 'react';
 import CatalogSecondFilter from '../../components/catalog-second-filter/catalog-second-filter';
 import ComponentsItems from '../../components/components-items/components-items';

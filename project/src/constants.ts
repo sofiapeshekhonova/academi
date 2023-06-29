@@ -80,30 +80,6 @@ export function SortCards(comments: ReviewsType[], sortListItem: string) {
   }
 }
 
-// export const SortList = [1,2];
-
-// export function SortComments(comments: ReviewsType[], sortListItem: number) {
-//   switch (sortListItem) {
-//     case SortList[0]:
-//       return comments;
-//     case SortList[1]:
-//       return comments.slice().sort((b, a) => );
-//     default:
-//       return comments;
-//   }
-// }
-
-
-export const CatalogSecondFilterListEn = ['vegetarian', 'new-york', 'lemon', 'vanilla'];
-
-
-export const CatalogSecondFilterList = [
-  { ru: 'Вегетарианский', en: 'vegetarian' },
-  { ru: 'Нью-Йорк', en: 'new-york' },
-  { ru: 'Лимонный', en: 'lemon' },
-  { ru: 'Ваниль', en: 'vanilla' },
-];
-
 export const CatalogFilterList = ['Бисквит', 'Десерт', 'Чизкейк', 'Песочное'];
 
 export function SortCatalog(products: Product[], sortListItem: string) {
@@ -158,9 +134,7 @@ export const CatalogList = [
   }
 ];
 
-
 export const URL_MARKER_RED_FOOTPRINT = '/img/stack/icon-pin.svg';
-export const URL_MARKER_YELLOW_FOOTPRINT = '/img/stack/icon-keks-footprint.svg';
 
 export const PLACES = [
   {
