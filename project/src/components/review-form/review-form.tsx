@@ -32,6 +32,9 @@ function ReviewForm() {
   function handleSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
     dispatch(postProductCommentsAction(formData));
+    if(postStatus === Status.Success) {
+      setFormData({rating: 0, positive: '', negative: '', id:''});
+    }
   }
 
   // const disabled = () => {

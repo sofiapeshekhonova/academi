@@ -38,16 +38,16 @@ export const userProcess = createSlice({
       })
       .addCase(registrationAction.pending, (state) => {
         state.statusRegistration = Status.Loading;
-        state.AuthorizationStatus = AuthorizationStatus.Unknown;
+        // state.AuthorizationStatus = AuthorizationStatus.Unknown;
       })
       .addCase(registrationAction.fulfilled, (state, action) => {
         state.statusRegistration = Status.Success;
-        state.AuthorizationStatus = AuthorizationStatus.Auth;
+        // state.AuthorizationStatus = AuthorizationStatus.Auth;
         state.userRegistrationInformation = action.payload;
       })
       .addCase(registrationAction.rejected, (state) => {
         state.statusRegistration = Status.Failed;
-        state.AuthorizationStatus = AuthorizationStatus.NoAuth;
+        // state.AuthorizationStatus = AuthorizationStatus.NoAuth;
       })
       .addCase(loginAction.pending, (state) => {
         state.status = Status.Loading;

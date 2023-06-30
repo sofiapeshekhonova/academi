@@ -76,7 +76,7 @@ export const registrationAction = createAsyncThunk<UserData, AuthDataRegister, {
   'user/registration',
   async ({ email, password, name}, {dispatch, extra: api }) => {
     const { data } = await api.post<UserData>(APIRoute.Registration, { email, password, name });
-    saveToken(data.token);
+    // saveToken(data.token);
     dispatch(redirectToRoute(AppRoute.logIn));
     return data;
   },
