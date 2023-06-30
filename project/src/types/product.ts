@@ -26,3 +26,8 @@ export type ActiveProduct = {
     rating: number;
     reviewCount: number;
  }
+
+export type FavoritesProducts = {
+  productId: string;
+  // status: number;
+}

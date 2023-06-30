@@ -1,19 +1,16 @@
-import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getCommentStatus} from '../../store/product/selectors';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { STARSS, Status } from '../../constants';
 import StarsInput from '../stars-input/stars-input';
 import { postProductCommentsAction } from '../../store/api-actions';
+import { getCommentStatus } from '../../store/comments/selectors';
 
-function ReviewForm() {
+type PropsType = {
+  roomId: string;
+}
+function ReviewForm({roomId}: PropsType) {
   const dispatch = useAppDispatch();
-  let id = useParams().id;
-  if (id === undefined) {
-    id = '';
-  }
 
-  // console.log(useParams().id)
   const postStatus = useAppSelector(getCommentStatus);
   //const minCharacters = 5;
   //const maxCharacters = 400;
@@ -21,7 +18,7 @@ function ReviewForm() {
     rating: 0,
     positive: '',
     negative: '',
-    id
+    id : roomId
   });
 
   function handleChange(evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
@@ -32,9 +29,10 @@ function ReviewForm() {
   function handleSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
     dispatch(postProductCommentsAction(formData));
-    if(postStatus === Status.Success) {
-      setFormData({rating: 0, positive: '', negative: '', id:''});
-    }
+    // if(postStatus === Status.Failed) {
+    //   console.log('dada')
+    //   // setFormData({rating: 0, positive: '', negative: '', id:''});
+    // }
   }
 
   // const disabled = () => {

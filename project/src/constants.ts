@@ -15,7 +15,8 @@ export enum Namespace {
   Products = 'PRODUCTS',
   ActiveProduct = 'PRODUCT',
   App = 'APP',
-  User = 'USER'
+  User = 'USER',
+  Comments = 'COMMENTS'
 }
 
 export enum APIRoute {
@@ -23,7 +24,9 @@ export enum APIRoute {
   Comments = '/v0/keks/reviews/',
   Login = '/v0/keks/users/login',
   Logout = '/v0/keks/users/logout',
-  Registration = '/v0/keks/users/registration'
+  Registration = '/v0/keks/users/registration',
+  Favorites = '/v0/keks/favorites',
+  DeleteFavorites = '/v0/keks/favorites'
 }
 
 export enum AuthorizationStatus {

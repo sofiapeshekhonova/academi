@@ -1,16 +1,17 @@
-// import EmptyFavorites from '../../components/empty-favorites/empty-favorites';
+import EmptyFavorites from '../../components/empty-favorites/empty-favorites';
 import FoolFavorites from '../../components/fool-favorites/fool-favorites';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
+import { useAppSelector } from '../../hooks';
+import { getFavoritesProducts } from '../../store/products/selectors';
 
-//только авторизованным
+
 function Favourites(): JSX.Element {
+  const favProducts = useAppSelector(getFavoritesProducts);
   return (
     <>
       <Header />
-      {/* если не пусто показывай одно, если пусто другое */}
-      <FoolFavorites />
-      {/* <EmptyFavorites /> */}
+      {favProducts.length > 0 ? <FoolFavorites /> : <EmptyFavorites />}
       <Footer />
     </>
   );

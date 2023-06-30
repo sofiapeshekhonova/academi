@@ -7,17 +7,14 @@ import { getProducts, getStatus } from '../../store/products/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
 import RandomProductsList from '../../components/random-products-list/random-products-list';
 import Map from '../../components/map/map';
-//import { Product } from '../../types/product';
 
 function Index(): JSX.Element {
   const products = useAppSelector(getProducts);
   const productsCopy = products.slice(0);
-  const productsStarus = useAppSelector(getStatus);
-
+  const productsStatus = useAppSelector(getStatus);
   const sortedProducts = SortProducts(productsCopy);
 
   return (
-    //wrapper куда вставить?
     <>
       <Header />
       <main>
@@ -38,7 +35,7 @@ function Index(): JSX.Element {
         <section className="random-main">
           <div className="container">
             <h2 className="random-main__title">кексы</h2>
-            {productsStarus === Status.Loading ? <LoadingScreen /> : <RandomProductsList products={sortedProducts} />}
+            {productsStatus === Status.Loading ? <LoadingScreen /> : <RandomProductsList products={sortedProducts} />}
           </div>
         </section>
         <section className="last-review">

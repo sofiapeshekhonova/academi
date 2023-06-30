@@ -9,7 +9,6 @@ function Header() {
   //const navigate = useNavigate();
   const user = useAppSelector(getUserInformations);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-
   // function handleListClick() {
   //   navigate(AppRoute.Favourites);
   // }
@@ -21,12 +20,9 @@ function Header() {
     <header className={`${user ? 'header header--authorized' : 'header'}`}>
       <div className="container">
         <div className="header__inner">
-          {/* <a className="header__logo" href="index.html" aria-label="Переход на главную">
-              <img src="img/svg/logo.svg" width="170" height="69" alt="Кондитерская кекс" />
-            </a> */}
-          <span className="header__logo">
+          <Link to={AppRoute.Index} className="header__logo" aria-label="Переход на главную">
             <img src="img/svg/logo.svg" width="170" height="69" alt="Кондитерская кекс" />
-          </span>
+          </Link>
           {authorizationStatus === AuthorizationStatus.Auth ?
             <HeaderAuth user={user} />
             :

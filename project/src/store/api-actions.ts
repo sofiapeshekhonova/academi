@@ -2,14 +2,12 @@ import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
 import { APIRoute, AppRoute } from '../constants';
-import { ActiveProduct, Product } from '../types/product.js';
+import { ActiveProduct, FavoritesProducts, Product } from '../types/product.js';
 import { CommentType, ReviewsPostType, ReviewsType } from '../types/review.js';
 import { UserData } from '../types/user/user.js';
 import { AuthData, AuthDataRegister } from '../types/auth-data.js';
 import { dropToken, saveToken } from '../services/token';
 import { redirectToRoute } from './action';
-// import { dropToken, saveToken } from '../services/token';
-// import { redirectToRoute } from './action';
 
 export const fetchProductsAction = createAsyncThunk<Product[], undefined, {
   state: State;
@@ -37,22 +35,25 @@ export const fetchProductCommentsAction = createAsyncThunk<ReviewsType[], string
   state: State;
   extra: AxiosInstance;
 }>(
-  'room/fetchProductCommentsAction',
+  'comments/fetchProductCommentsAction',
   async (productId, { extra: api }) => {
     const { data } = await api.get<ReviewsType[]>(`${APIRoute.Comments}/${productId}`);
     return data;
   }
 );
 
-
 export const postProductCommentsAction = createAsyncThunk<ReviewsPostType[], CommentType, {
+  dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'room/postProductCommentsAction',
-  async ({ id, positive, negative, rating }, { extra: api }) => {
+  'comments/postProductCommentsAction',
+  async ({ id, positive, negative, rating }, { dispatch, extra: api }) => {
     const x = Number(rating);
     const { data } = await api.post<ReviewsPostType[]>(`${APIRoute.Comments}/${id}`, { positive, negative, rating: x });
+    dispatch(fetchProductCommentsAction(id));
+    dispatch(fetchProductsAction());
+    dispatch(fetchActiveProductAction(id));
     return data;
   }
 );
@@ -104,5 +105,42 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   async (_arg, { extra: api }) => {
     await api.delete(APIRoute.Logout);
     dropToken();
+  },
+);
+
+export const fetchFavoritesProductsAction = createAsyncThunk<Product[], undefined, {
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'products/fetchFavoritesProducts',
+  async (_arg, { extra: api }) => {
+    const { data } = await api.get<Product[]>(APIRoute.Favorites);
+    return data;
+  },
+);
+
+export const putFavoriteProductsAction = createAsyncThunk<Product, FavoritesProducts, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'product/putFavoriteProducts',
+  async ({productId }, { dispatch, extra: api }) => {
+    const { data } = await api.put<Product>(`${APIRoute.Favorites}/${productId}`);
+    dispatch(fetchFavoritesProductsAction());
+    return data;
+  },
+);
+
+export const deleteFavoriteProductsAction = createAsyncThunk<Product, FavoritesProducts, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'product/deleteFavoriteProducts',
+  async ({productId }, { dispatch, extra: api }) => {
+    const { data } = await api.delete<Product>(`${APIRoute.DeleteFavorites}/${productId}`);
+    dispatch(fetchFavoritesProductsAction());
+    return data;
   },
 );

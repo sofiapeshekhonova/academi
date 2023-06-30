@@ -7,7 +7,7 @@ import ReviewForm from '../../components/review-form/review-form';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchActiveProductAction, fetchProductCommentsAction } from '../../store/api-actions';
-import { getActiveProduct, getComments } from '../../store/product/selectors';
+import { getActiveProduct } from '../../store/product/selectors';
 import { AuthorizationStatus, SortCards } from '../../constants';
 import { getSortComments } from '../../store/app/selectors';
 import EmptyProductFilterResult from '../../components/empty-product-filter-result/empty-product-filter-result';
@@ -15,13 +15,14 @@ import Comments from '../../components/comments/comments';
 import EmptyReviewResults from '../../components/empty-review-results/empty-review-results';
 import './product-page.css';
 import { getAuthorizationStatus } from '../../store/user/selectors';
+import { getComments } from '../../store/comments/selectors';
 
 function ProductPage(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const productId = useParams().id;
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-
+  //не обновляется страница, доделать
   let x: string;
   if (productId === undefined) {
     x = '1';
@@ -32,11 +33,10 @@ function ProductPage(): JSX.Element {
   useEffect(() => {
     dispatch(fetchActiveProductAction(x));
     dispatch(fetchProductCommentsAction(x));
-  }, [x, dispatch]);
+  }, [dispatch, x]);
 
   const product = useAppSelector(getActiveProduct);
   const comments = useAppSelector(getComments);
-
   const selectedSortItem = useAppSelector(getSortComments);
   const sortComments = SortCards(comments, selectedSortItem);
   const showComments = () => {
@@ -45,7 +45,7 @@ function ProductPage(): JSX.Element {
     } else if (sortComments.length === 0) {
       return <EmptyProductFilterResult />;
     } else {
-      return <Comments comments={sortComments} selectedSortItem={selectedSortItem} />;
+      return <Comments comments={sortComments} selectedSortItem={selectedSortItem}/>;
     }
     ///тут еще добавить если общика в загрузке /* <ProductCommentsError /> */
   };
@@ -67,7 +67,7 @@ function ProductPage(): JSX.Element {
           </div>
         </div>
         {product !== null && <ProductDetails product={product} />}
-        {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />}
+        {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm roomId={x} />}
         {showComments()}
       </main>
       <Footer />

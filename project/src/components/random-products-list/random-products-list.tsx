@@ -7,9 +7,11 @@ type Props = {
   products: Product[];
 }
 function RandomProductsList({ products }: Props) {
+  const slice = products.slice(0, 3);
+
   return (
     <ul className="random-main__list">
-      {products.slice(0, 3).map((product) => (
+      {slice.map((product) => (
         <ProductItem product={product} key={product.id} />
       ))}
       <li className="random-main__item">

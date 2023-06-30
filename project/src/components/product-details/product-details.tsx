@@ -1,13 +1,21 @@
 import { useEffect, useState } from 'react';
-import { STARS } from '../../constants';
+import { AppRoute, AuthorizationStatus, STARS } from '../../constants';
 import { ActiveProduct } from '../../types/product';
 import Rating from '../rating/rating';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getFavoritesProducts } from '../../store/products/selectors';
+import { getAuthorizationStatus } from '../../store/user/selectors';
+import { deleteFavoriteProductsAction, putFavoriteProductsAction } from '../../store/api-actions';
+import { useNavigate } from 'react-router-dom';
 
 type PropsType = {
   product: ActiveProduct;
 }
 
 function ProductDetails({ product }: PropsType) {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [length, setLength] = useState(140);
   const [description, setDescription] = useState(product.description);
 
@@ -17,6 +25,25 @@ function ProductDetails({ product }: PropsType) {
 
   function handleMoreDescroptionButton() {
     setLength(product.description.length);
+  }
+
+  const favProducts = useAppSelector(getFavoritesProducts);
+  const favProductsId = favProducts.map((i) => i.id);
+  const isFavorite = favProductsId.includes(product.id);
+
+  const buttonClassName = isFavorite === true ? 'item-details__like-button item-details__like-button--active' : 'item-details__like-button';
+  const buttonText = isFavorite === true ? 'Добавить в избранное' : 'Удалить из избранного';
+  const data = {
+    productId: product.id,
+  };
+  function handleClick() {
+    if (authorizationStatus === AuthorizationStatus.Auth && isFavorite !== true) {
+      dispatch(putFavoriteProductsAction(data));
+    } else if (authorizationStatus === AuthorizationStatus.Auth && isFavorite === true) {
+      dispatch(deleteFavoriteProductsAction(data));
+    } else {
+      navigate(AppRoute.logIn);
+    }
   }
 
   return (
@@ -59,10 +86,11 @@ function ProductDetails({ product }: PropsType) {
                   </button> }
               </div>
               <div className="item-details__button-wrapper">
-                <button className="item-details__like-button">
+                <button className={buttonClassName} onClick={handleClick}>
                   <svg width="45" height="37" aria-hidden="true">
                     <use xlinkHref="#icon-like"></use>
-                  </svg><span className="visually-hidden">Понравилось</span>
+                  </svg>
+                  <span className="visually-hidden">{buttonText}</span>
                 </button>
                 <button className="btn btn--second" type="button">Отменить отзыв</button>
                 {/* <button class="btn btn--second" type="button">Оставить отзыв</button> */}

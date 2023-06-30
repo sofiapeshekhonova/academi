@@ -2,13 +2,15 @@ import { Link } from 'react-router-dom';
 import { UserData } from '../../types/user/user';
 import { AppRoute } from '../../constants';
 import { logoutAction } from '../../store/api-actions';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getFavoritesProducts } from '../../store/products/selectors';
 
 type PropsType = {
   user: UserData | null;
 }
 
 function HeaderAuth({user}: PropsType) {
+  const favProducts = useAppSelector(getFavoritesProducts);
   const dispatch = useAppDispatch();
   function handleClick() {
     dispatch(logoutAction());
@@ -34,7 +36,7 @@ function HeaderAuth({user}: PropsType) {
               <use xlinkHref="#icon-favourite"></use>
             </svg>
           </span>
-          <span className="header__favourite-number">2</span>
+          <span className="header__favourite-number">{favProducts.length}</span>
           <span className="visually-hidden">Избранное</span>
         </Link>
         <div className="header__buttons-authorized">
