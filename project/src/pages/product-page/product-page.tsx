@@ -49,7 +49,7 @@ function ProductPage(): JSX.Element {
     }
     ///тут еще добавить если общика в загрузке /* <ProductCommentsError /> */
   };
-console.log(comments)
+
   return (
     <>
       <Header />

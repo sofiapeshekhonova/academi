@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { CITY, PLACES, URL_MARKER_RED_FOOTPRINT } from '../../constants';
+import { CITY, MAP_MAPKER, MAP_MAPKER_SECOND, PLACES } from '../../constants';
 import { BaseIconOptions, Icon, Marker } from 'leaflet';
 import useMap from '../../hooks/useMap';
 import leaflet from 'leaflet';
@@ -13,7 +13,8 @@ function createIcon(icon: string): BaseIconOptions {
   };
 }
 
-const defaultCustomIcon = new Icon(createIcon(URL_MARKER_RED_FOOTPRINT));
+const fabrick = new Icon(createIcon(MAP_MAPKER_SECOND));
+const shop = new Icon(createIcon(MAP_MAPKER));
 
 type MapScreenProps = {
   activeLink: number | null;
@@ -34,7 +35,8 @@ function MapPicture({ activeLink }: MapScreenProps): JSX.Element {
           lng: place.location.longitude,
         });
         marker
-          .setIcon(defaultCustomIcon);
+          .setIcon(
+            (place.id === 2) ? fabrick : shop);
         if (place.id === activeLink) {
           marker.addTo(markers);
         }

@@ -143,7 +143,8 @@ export const CatalogList = [
   }
 ];
 
-export const URL_MARKER_RED_FOOTPRINT = '/img/stack/icon-pin.svg';
+export const MAP_MAPKER = '/img/content/map-marker1.svg';
+export const MAP_MAPKER_SECOND = '/img/content/map-marker2.svg';
 
 export const PLACES = [
   {
@@ -151,8 +152,8 @@ export const PLACES = [
     location: {
       address: 'Морской пр. 2А',
       name: 'Кондитерская 1',
-      'latitude': 59.942345,
-      'longitude': 30.297553,
+      'latitude': 59.970969,
+      'longitude': 30.316252,
       zoom: 4,
     },
   },
@@ -161,8 +162,8 @@ export const PLACES = [
     location: {
       address: 'Большой пр. 2А',
       name: 'Производство',
-      'latitude': 59.940396,
-      'longitude': 30.313804,
+      'latitude': 59.967947,
+      'longitude': 30.274708,
       zoom: 4,
     },
   },
@@ -171,8 +172,8 @@ export const PLACES = [
     location: {
       address: 'Малый пр. 2А',
       name: 'Кондитерская 2',
-      'latitude': 59.949071,
-      'longitude': 30.317879,
+      'latitude': 59.960380,
+      'longitude': 30.308725,
       zoom: 4,
     },
   },
@@ -181,9 +182,9 @@ export const PLACES = [
 export const CITY = {
   'name': 'Saint-Petersburg',
   'location': {
-    'latitude': 59.93863,
-    'longitude': 30.31413,
-    'zoom': 13
+    'latitude': 59.964366,
+    'longitude': 30.303038,
+    'zoom': 14
   }
 };
 
