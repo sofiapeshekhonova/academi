@@ -1,13 +1,21 @@
 import { Link } from 'react-router-dom';
 import { Product } from '../../types/product';
 import ProductItem from '../product-item/product-item';
-import { AppRoute } from '../../constants';
+import { AppRoute, Status } from '../../constants';
+import { useAppSelector } from '../../hooks';
+import { getStatus } from '../../store/products/selectors';
+import ErrorPage from '../../pages/error-page/error-page';
 
 type Props = {
   products: Product[];
 }
 function RandomProductsList({ products }: Props) {
   const slice = products.slice(0, 3);
+  const productsStatus = useAppSelector(getStatus);
+
+  if(productsStatus === Status.Failed) {
+    return <ErrorPage />;
+  }
 
   return (
     <ul className="random-main__list">

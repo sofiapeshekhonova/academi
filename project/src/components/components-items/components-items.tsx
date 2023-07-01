@@ -1,13 +1,17 @@
 import { useCallback, useState } from 'react';
 import { Product } from '../../types/product';
 import CatalogItem from '../catalog-item/catalog-item';
+import { useAppSelector } from '../../hooks';
+import { getStatus } from '../../store/user/selectors';
+import { Status } from '../../constants';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 type PropsType = {
   products: Product[];
 }
 
 function ComponentsItems({products}: PropsType) {
-
+  const productsStatus = useAppSelector(getStatus);
   const [countProducts, setCountProducts] = useState(6);
 
   const handleShoeMoreButton = useCallback(() => {
@@ -19,6 +23,10 @@ function ComponentsItems({products}: PropsType) {
   function handleBegginingClick() {
     window.scrollTo(0, 0);
     setCountProducts(6);
+  }
+
+  if(productsStatus === Status.Loading) {
+    return <LoadingScreen />;
   }
 
   return (

@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import Footer from '../../components/footer/footer';
-import Header from '../../components/header/header';
 import ProductDetails from '../../components/product-details/product-details';
 import ReviewForm from '../../components/review-form/review-form';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -16,6 +14,7 @@ import './product-page.css';
 import { getComments, getCommentsStatus } from '../../store/comments/selectors';
 import ProductCommentsError from '../../components/product-comments-error/product-comments-error';
 import LoadingScreen from '../loading-screen/loading-screen';
+import Layout from '../../components/layout/layout';
 
 function ProductPage(): JSX.Element {
   const navigate = useNavigate();
@@ -66,8 +65,7 @@ function ProductPage(): JSX.Element {
   };
 
   return (
-    <>
-      <Header />
+    <Layout>
       <main>
         <div className="back-link">
           <div className="container">
@@ -79,11 +77,10 @@ function ProductPage(): JSX.Element {
           </div>
         </div>
         {product !== null && <ProductDetails product={product} openReview={openReview} setOpenReview={setOpenReview} />}
-        {openReview && <ReviewForm roomId={x} setOpenReview={setOpenReview} openReview={openReview}/>}
+        {openReview && <ReviewForm roomId={x} setOpenReview={setOpenReview} openReview={openReview} />}
         {showComments()}
       </main>
-      <Footer />
-    </>
+    </Layout>
   );
 }
 

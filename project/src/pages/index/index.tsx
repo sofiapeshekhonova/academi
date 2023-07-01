@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom';
-import Footer from '../../components/footer/footer';
-import Header from '../../components/header/header';
 import { AppRoute, Status, SortProducts } from '../../constants';
 import { useAppSelector } from '../../hooks';
 import { getProducts, getStatus } from '../../store/products/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
 import RandomProductsList from '../../components/random-products-list/random-products-list';
 import Map from '../../components/map/map';
+import Layout from '../../components/layout/layout';
 
 function Index(): JSX.Element {
   const products = useAppSelector(getProducts);
@@ -15,8 +14,7 @@ function Index(): JSX.Element {
   const sortedProducts = SortProducts(productsCopy);
 
   return (
-    <>
-      <Header />
+    <Layout>
       <main>
         <div className="hero">
           <div className="container">
@@ -77,8 +75,7 @@ function Index(): JSX.Element {
         </section>
         <Map />
       </main>
-      <Footer />
-    </>
+    </Layout>
   );
 }
 
