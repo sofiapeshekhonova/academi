@@ -58,17 +58,15 @@ function ProductDetails({ product, openReview, setOpenReview }: PropsType) {
   }
 
   return (
-    // если нет коментариев или информация по кексам не найдена
-    // <section className="item-details">
-    <section className="item-details item-details--form-open" >
+    <section className={`${ openReview ? 'item-details--form-open' : ''} item-details`} >
       <div className="container">
         <div className="item-details__wrapper">
           <div className="item-details__top-wrapper">
             <h2 className="item-details__name">{product.title}</h2>
-            <span className="item-details__price">{product.price} р</span>
+            <span className="item-details__price">{product.price.toLocaleString('ru')} р</span>
           </div>
           <div className="item-details__weight-wrapper">
-            <span className="item-details__weight">{product.weight} грамм</span>
+            <span className="item-details__weight">{product.weight.toLocaleString('ru')} грамм</span>
           </div>
           <div className="item-details__bottom-wrapper">
             <div className="item-details__image-wrapper">

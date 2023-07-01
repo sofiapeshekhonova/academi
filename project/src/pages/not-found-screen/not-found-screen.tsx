@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
+import Layout from '../../components/layout/layout';
 
 function NotFoundScreen(): JSX.Element {
   return (
-    <>
+    <Layout>
       <h1 className="visually-hidden">404</h1>
       <section className="error-page">
         <div className="container">
@@ -14,7 +15,7 @@ function NotFoundScreen(): JSX.Element {
           </div>
         </div>
       </section>
-    </>
+    </Layout>
   );
 }
 

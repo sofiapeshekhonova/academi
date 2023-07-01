@@ -1,11 +1,18 @@
 import EmptyFavorites from '../../components/empty-favorites/empty-favorites';
 import FoolFavorites from '../../components/fool-favorites/fool-favorites';
 import Layout from '../../components/layout/layout';
+import { Status } from '../../constants';
 import { useAppSelector } from '../../hooks';
-import { getFavoritesProducts } from '../../store/products/selectors';
+import { getFavoritesProducts, getFavoritesStatus } from '../../store/products/selectors';
+import ErrorPage from '../error-page/error-page';
 
 function Favourites(): JSX.Element {
   const favProducts = useAppSelector(getFavoritesProducts);
+  const favProductsStatus = useAppSelector(getFavoritesStatus);
+  if(favProductsStatus === Status.Failed) {
+    return <ErrorPage />;
+  }
+
   return (
     <Layout>
       {favProducts.length > 0 ? <FoolFavorites /> : <EmptyFavorites />}

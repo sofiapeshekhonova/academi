@@ -4,7 +4,7 @@ import ReviewForm from '../../components/review-form/review-form';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchActiveProductAction, fetchProductCommentsAction } from '../../store/api-actions';
-import { getActiveProduct } from '../../store/product/selectors';
+import { getActiveProduct, getActiveProductStatus } from '../../store/product/selectors';
 import { SortCards, SortDateComments, Status } from '../../constants';
 import { getSecondSortCommentsItem, getSortCommentsItem } from '../../store/app/selectors';
 import EmptyProductFilterResult from '../../components/empty-product-filter-result/empty-product-filter-result';
@@ -15,6 +15,7 @@ import { getComments, getCommentsStatus } from '../../store/comments/selectors';
 import ProductCommentsError from '../../components/product-comments-error/product-comments-error';
 import LoadingScreen from '../loading-screen/loading-screen';
 import Layout from '../../components/layout/layout';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 function ProductPage(): JSX.Element {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ function ProductPage(): JSX.Element {
   }, [dispatch, x]);
 
   const product = useAppSelector(getActiveProduct);
+  const productStatus = useAppSelector(getActiveProductStatus);
   const comments = useAppSelector(getComments);
 
   const selectedSortItem = useAppSelector(getSortCommentsItem);
@@ -45,10 +47,9 @@ function ProductPage(): JSX.Element {
   //сортировка по дате она работает, НО С СЕРВЕРА ПРИХОДЯТ ОДИНАКОВЫЕ ДАТЫ
   const sortedComments = SortDateComments(sortedRatingsComments, selectedSortItemSecond);
 
-
   const showComments = () => {
     if (comentsStatus === Status.Failed) {
-      return <ProductCommentsError />;
+      return <ProductCommentsError showComments={showComments} />;
     } else if (comentsStatus === Status.Loading) {
       return <LoadingScreen />;
     } else {
@@ -63,6 +64,10 @@ function ProductPage(): JSX.Element {
       }
     }
   };
+
+  if (productStatus === Status.Failed) {
+    return <NotFoundScreen />;
+  }
 
   return (
     <Layout>
