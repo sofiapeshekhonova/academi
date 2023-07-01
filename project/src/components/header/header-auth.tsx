@@ -36,7 +36,7 @@ function HeaderAuth({user}: PropsType) {
               <use xlinkHref="#icon-favourite"></use>
             </svg>
           </span>
-          <span className="header__favourite-number">{favProducts.length}</span>
+          {favProducts.length > 0 && <span className="header__favourite-number">{favProducts.length}</span>}
           <span className="visually-hidden">Избранное</span>
         </Link>
         <div className="header__buttons-authorized">

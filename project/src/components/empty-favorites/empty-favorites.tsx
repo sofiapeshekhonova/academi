@@ -1,10 +1,14 @@
+import { Link, useNavigate } from 'react-router-dom';
+import { AppRoute } from '../../constants';
+
 function EmptyFavorites() {
+  const navigate = useNavigate();
   return (
     <main>
       <h1 className="visually-hidden">Каталог товаров</h1>
       <div className="back-link">
         <div className="container">
-          <a className="back-link__link" href="#">Назад
+          <a onClick={() => navigate(-1)} className="back-link__link" >Назад
             <svg className="back-link__icon" width="30" height="16" aria-hidden="true">
               <use xlinkHref="#icon-arrow-left"></use>
             </svg>
@@ -22,7 +26,7 @@ function EmptyFavorites() {
               <div className="empty-favorites__content">
                 <p className="empty-favorites__text">Кажется, пока вы не добавили ни одного кекса</p>
                 <div className="empty-favorites__button-wrapper">
-                  <a className="btn" href="#">К кексам</a>
+                  <Link to={AppRoute.Catalog} className="btn" >К кексам</Link>
                 </div>
               </div>
             </div>

@@ -1,18 +1,24 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getFavoritesProducts } from '../../store/products/selectors';
 import CatalogItem from '../catalog-item/catalog-item';
 import './fool-favorites.css';
 import { AppRoute } from '../../constants';
+import { deleteFavoriteProductsAction } from '../../store/api-actions';
 
 function FoolFavorites() {
   const favProducts = useAppSelector(getFavoritesProducts);
+  const dispatch = useAppDispatch();
   const sum = favProducts.reduce((a, b) => a + b.price, 0);
-
+  const favProductsId = favProducts.map((i) => i.id);
   const navigate = useNavigate();
 
   function handleDeleteAllClick() {
-
+    favProductsId.forEach((element) => {
+      const data = { productId: element };
+      dispatch(deleteFavoriteProductsAction(data));
+    }
+    );
   }
 
   return (

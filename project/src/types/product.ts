@@ -29,5 +29,4 @@ export type ActiveProduct = {
 
 export type FavoritesProducts = {
   productId: string;
-  // status: number;
 }

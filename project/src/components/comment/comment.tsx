@@ -7,14 +7,14 @@ type PropsType = {
 }
 
 function Comment({comment}: PropsType) {
-  const houres = comment.isoDate.substring(11, 13);
-  const min = comment.isoDate.substring(14, 16);
   const date = comment.isoDate.substring(0, 10);
+  const month = comment.isoDate.substring(5, 7);
+  const day = comment.isoDate.substring(8, 10);
 
   return (
     <div className="review">
       <div className="review__inner-wrapper">
-        <time className="review__date" dateTime={date}>{houres}.{min}</time>
+        <time className="review__date" dateTime={date}>{day}.{month}</time>
         <span className="review__author">Уважаемый(-ая) {comment.user.name}</span>
         <div className="star-rating">
           {STARS.map((star) => (

@@ -10,6 +10,8 @@ type PropsType = {
 function FilterCommentsSort({selectedSortItem}: PropsType) {
   const dispatch = useAppDispatch();
   const [isOpenSortList, setIsOpenSortList] = useState(false);
+  const [button, setButton] = useState(true);
+  const [secondButton, setSecondButton] = useState(false);
 
   function handelOpenSortList() {
     setIsOpenSortList(true);
@@ -21,10 +23,17 @@ function FilterCommentsSort({selectedSortItem}: PropsType) {
   }
 
 
-  // function handleSelectDescendingSort() {
+  const classNameButtonFirst = `filter-sort__sort-btn filter-sort__sort-btn--inc ${button ? 'filter-sort__sort-btn--active' : ''}`;
+  const classNameButtonSecond = `filter-sort__sort-btn filter-sort__sort-btn--desc ${secondButton ? 'filter-sort__sort-btn--active' : ''}`;
+  function handleSelectDescendingSort() {
+    setButton(false);
+    setSecondButton(true);
+  }
 
-  // }
-
+  function handleSelectSort() {
+    setSecondButton(false);
+    setButton(true);
+  }
 
   return (
     <div className="filter-sort">
@@ -41,46 +50,27 @@ function FilterCommentsSort({selectedSortItem}: PropsType) {
               {isOpenSortList && (
                 <ul className="filter-sort__filter-list" >
                   {SortRatingList.map((item) =>
-                  // <li className='places__option' onClick={() => handelChooseSort(item)} tabIndex={0} key={item}>{item}</li>
                     <FilterItem key={item} item={item} handelChooseSort={handelChooseSort} selectedSortItem={selectedSortItem}/>
                   )}
                 </ul>
               )}
-              {/* <ul className="filter-sort__filter-list">
-                <li className="filter-sort__filter-item">
-                  <div className="custom-toggle custom-toggle--sorting">
-                    <input type="radio" id="review-sort-1" name="review-sort" />
-                    <label className="custom-toggle__label" htmlFor="review-sort-1">Любой</label>
-                  </div>
-                </li>
-                <li className="filter-sort__filter-item">
-                  <div className="custom-toggle custom-toggle--sorting">
-                    <input type="radio" id="review-sort-2" name="review-sort" />
-                    <label className="custom-toggle__label" htmlFor="review-sort-2">Высокий</label>
-                  </div>
-                </li>
-                <li className="filter-sort__filter-item">
-                  <div className="custom-toggle custom-toggle--sorting">
-                    <input type="radio" id="review-sort-3" name="review-sort" />
-                    <label className="custom-toggle__label" htmlFor="review-sort-3">Низкий</label>
-                  </div>
-                </li>
-              </ul> */}
             </div>
           </div>
           <div className="filter-sort__sort-wrap">
             <h3 className="filter-sort__sort-title">Сортировать по дате</h3>
             <div className="filter-sort__sort-btns-wrap">
-              {/* //filter-sort__sort-btn--active */}
-              <button className="filter-sort__sort-btn filter-sort__sort-btn--inc"
+              <button className={classNameButtonFirst} onClick={handleSelectSort}
                 type="button" aria-label="сортировка по возрастанию"
-                // onClick={handleSelectDescendingSort}
+
               >
                 <svg className="filter-sort__sort-icon" width="19" height="13" aria-hidden="true">
                   <use xlinkHref="#icon-chevron-top"></use>
                 </svg>
               </button>
-              <button className="filter-sort__sort-btn filter-sort__sort-btn--desc" type="button" aria-label="сортировка по убыванию">
+              <button className={classNameButtonSecond}
+                type="button" aria-label="сортировка по убыванию"
+                onClick={handleSelectDescendingSort}
+              >
                 <svg className="filter-sort__sort-icon" width="19" height="13" aria-hidden="true">
                   <use xlinkHref="#icon-chevron-top"></use>
                 </svg>

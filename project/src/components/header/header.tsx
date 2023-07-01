@@ -6,12 +6,9 @@ import HeaderAuth from './header-auth';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 function Header() {
-  //const navigate = useNavigate();
   const user = useAppSelector(getUserInformations);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  // function handleListClick() {
-  //   navigate(AppRoute.Favourites);
-  // }
+
   if (authorizationStatus === AuthorizationStatus.Unknown) {
     return <LoadingScreen />;
   }

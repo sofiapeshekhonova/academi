@@ -10,16 +10,19 @@ import { useNavigate } from 'react-router-dom';
 
 type PropsType = {
   product: ActiveProduct;
+  openReview: boolean;
+  setOpenReview: (tab: boolean) => void;
 }
 
-function ProductDetails({ product }: PropsType) {
+function ProductDetails({ product, openReview, setOpenReview }: PropsType) {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [length, setLength] = useState(140);
   const [description, setDescription] = useState(product.description);
 
-  useEffect(()=> {
+
+  useEffect(() => {
     setDescription(product.description.slice(0, length));
   }, [length, product.description]);
 
@@ -41,6 +44,14 @@ function ProductDetails({ product }: PropsType) {
       dispatch(putFavoriteProductsAction(data));
     } else if (authorizationStatus === AuthorizationStatus.Auth && isFavorite === true) {
       dispatch(deleteFavoriteProductsAction(data));
+    } else {
+      navigate(AppRoute.logIn);
+    }
+  }
+
+  function handleСloseReviewClick() {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      setOpenReview(!openReview);
     } else {
       navigate(AppRoute.logIn);
     }
@@ -69,21 +80,21 @@ function ProductDetails({ product }: PropsType) {
             </div>
             <div className="item-details__review-wrapper">
               <div className="star-rating star-rating--big">
+                {/* нормально рейтинг вывести не получиться, т.к. отзывы до 5 звезд, а с сервера приходят рейтинг больше 5, скорее всего до 10 */}
                 {STARS.map((star) => (
-                  <Rating key={star.id} rating={product.rating} star={star.rating} starId={star.id}/>
+                  <Rating key={star.id} rating={product.rating} star={star.rating} starId={star.id} />
                 ))}
-                <span className="star-rating__count">{product.reviewCount}</span>
+                <span className="star-rating__count">{Math.round(product.reviewCount)}</span>
               </div>
               <div className="item-details__text-wrapper">
                 <span className="item-details__text">{description}</span>
-                {}
                 {product.description.length > 140 && product.description.length !== length &&
                   <button className="item-details__more" onClick={handleMoreDescroptionButton}>
                     <span className="visually-hidden">Читать полностью</span>
                     <svg width="27" height="17" aria-hidden="true">
                       <use xlinkHref="#icon-more"></use>
                     </svg>
-                  </button> }
+                  </button>}
               </div>
               <div className="item-details__button-wrapper">
                 <button className={buttonClassName} onClick={handleClick}>
@@ -92,8 +103,9 @@ function ProductDetails({ product }: PropsType) {
                   </svg>
                   <span className="visually-hidden">{buttonText}</span>
                 </button>
-                <button className="btn btn--second" type="button">Отменить отзыв</button>
-                {/* <button class="btn btn--second" type="button">Оставить отзыв</button> */}
+                <button className="btn btn--second" type="button" onClick={handleСloseReviewClick}>
+                  {openReview ? 'Отменить отзыв' : 'Оставить отзыв'}
+                </button>
               </div>
             </div>
           </div>

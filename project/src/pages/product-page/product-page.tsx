@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 // import ProductCommentsError from '../../components/product-comments-error/product-comments-error';
@@ -8,21 +8,22 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchActiveProductAction, fetchProductCommentsAction } from '../../store/api-actions';
 import { getActiveProduct } from '../../store/product/selectors';
-import { AuthorizationStatus, SortCards } from '../../constants';
+import { SortCards, Status } from '../../constants';
 import { getSortComments } from '../../store/app/selectors';
 import EmptyProductFilterResult from '../../components/empty-product-filter-result/empty-product-filter-result';
 import Comments from '../../components/comments/comments';
 import EmptyReviewResults from '../../components/empty-review-results/empty-review-results';
 import './product-page.css';
-import { getAuthorizationStatus } from '../../store/user/selectors';
-import { getComments } from '../../store/comments/selectors';
+import { getComments, getCommentsStatus } from '../../store/comments/selectors';
+import ProductCommentsError from '../../components/product-comments-error/product-comments-error';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 function ProductPage(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const productId = useParams().id;
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  //не обновляется страница, доделать
+  const [openReview, setOpenReview] = useState(false);
+
   let x: string;
   if (productId === undefined) {
     x = '1';
@@ -37,26 +38,55 @@ function ProductPage(): JSX.Element {
 
   const product = useAppSelector(getActiveProduct);
   const comments = useAppSelector(getComments);
+
+  const commentss = [
+    {
+      'id': '464cc196-b9e9-466d-bef6-a763a2ae31cf',
+      'positive': 'Сочный микс урашений на классической основе',
+      'negative': 'Сочный микс урашений на классической основе',
+      'rating': 5,
+      'user': {
+        'name': 'соня',
+        'avatarUrl': 'https://grading.design.pages.academy/static/keks/avatar/default.jpg'
+      },
+      'isoDate': '2023-06-20T16:18:31.725Z'
+    },
+    {
+      'id': '69939723-e5b3-43f0-8f7b-d3c4ad353a2f',
+      'positive': 'Сочный микс урашений на классической основе',
+      'negative': 'Сочный микс урашений на классической основе',
+      'rating': 3,
+      'user': {
+        'name': 'соня',
+        'avatarUrl': 'https://grading.design.pages.academy/static/keks/avatar/default.jpg'
+      },
+      'isoDate': '2023-06-30T19:18:31.725Z'
+    },
+  ];
   const selectedSortItem = useAppSelector(getSortComments);
-  const sortComments = SortCards(comments, selectedSortItem);
+  const comentsStatus = useAppSelector(getCommentsStatus);
+  const sortComments = SortCards(commentss, selectedSortItem);
+
   const showComments = () => {
-    if (comments.length === 0) {
-      return <EmptyReviewResults />;
-    } else if (sortComments.length === 0) {
-      return <EmptyProductFilterResult />;
+    if (comentsStatus === Status.Failed) {
+      return <ProductCommentsError />;
+    } else if (comentsStatus === Status.Loading) {
+      return <LoadingScreen />;
     } else {
-      return <Comments comments={sortComments} selectedSortItem={selectedSortItem}/>;
+      if (comments.length === 0) {
+        return <EmptyReviewResults />;
+      } else if (sortComments.length === 0) {
+        return <EmptyProductFilterResult />;
+      } else {
+        return <Comments comments={sortComments} selectedSortItem={selectedSortItem} />;
+      }
     }
-    ///тут еще добавить если общика в загрузке /* <ProductCommentsError /> */
   };
 
   return (
     <>
       <Header />
       <main>
-        {/* <h1 class="visually-hidden">Карточка: отзывов еще нет</h1> */}
-        {/* <h1 class="visually-hidden">Карточка: пользователь не авторизован</h1> */}
-        {/* <h1 className="visually-hidden">Карточка: пользователь авторизован</h1> */}
         <div className="back-link">
           <div className="container">
             <a onClick={() => navigate(-1)} className="back-link__link links" >Назад
@@ -66,8 +96,8 @@ function ProductPage(): JSX.Element {
             </a>
           </div>
         </div>
-        {product !== null && <ProductDetails product={product} />}
-        {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm roomId={x} />}
+        {product !== null && <ProductDetails product={product} openReview={openReview} setOpenReview={setOpenReview} />}
+        {openReview && <ReviewForm roomId={x} setOpenReview={setOpenReview} openReview={openReview}/>}
         {showComments()}
       </main>
       <Footer />

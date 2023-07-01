@@ -15,19 +15,25 @@ function ProductComments({ comments }: PropsType) {
     }
   }, [countComments, comments.length]);
 
-  //console.log(comments.slice().sort((b, a) => a.))
+
+  const x: ReviewsType[] = [];
+  const commentsNew = [...x, ...comments];
+
+  //сортировка по дате по умолчанию и она бы работала. если бы с сервера приходили бы верные даты
+  const sorted = commentsNew.splice(0).sort((a, b) => a.isoDate < b.isoDate ? 1 : -1);
+
   return (
     <section className="comments">
       <h2 className="visually-hidden">Список комментариев</h2>
       <div className="container">
         <div className="comments__wrapper">
-          {comments.slice(0, countComments).map((comment) => (
+          {sorted.slice(0, countComments).map((comment) => (
             <Comment comment={comment} key={comment.id} />
           ))}
         </div>
         <div className="comments__show-more">
           {comments.length > 2 && countComments < comments.length && countComments !== comments.length &&
-          <button className="btn btn--second comments__button" type="button" onClick={handleShoeMoreButton}>Показать еще</button>}
+            <button className="btn btn--second comments__button" type="button" onClick={handleShoeMoreButton}>Показать еще</button>}
         </div>
       </div>
     </section>

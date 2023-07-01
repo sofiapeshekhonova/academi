@@ -57,7 +57,7 @@ function CatalogItem({ product }: PropsType) {
             <use xlinkHref="#icon-like"></use>
           </svg>
         </button>
-        <span className="card-item__price">{price}</span>
+        <span className="card-item__price">{price} р</span>
         <Link to={productId} className="card-item__link">
           <h3 className="card-item__title"><span>{product.title}</span></h3>
         </Link>
