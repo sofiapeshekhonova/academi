@@ -19,8 +19,7 @@ function FoolFavorites() {
     favProductsId.forEach((element) => {
       const data = { productId: element };
       dispatch(deleteFavoriteProductsAction(data));
-    }
-    );
+    });
   }
 
   return (

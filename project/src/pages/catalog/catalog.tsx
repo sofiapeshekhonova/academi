@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import CatalogSecondFilter from '../../components/catalog-second-filter/catalog-second-filter';
 import ComponentsItems from '../../components/components-items/components-items';
 import { CatalogFilterList, CatalogList, SortCatalog, Status } from '../../constants';
@@ -20,9 +20,7 @@ function Catalog(): JSX.Element {
   const selectedSorCatalog = useAppSelector(getSortCatalog);
   let res: Product[];
   let sortProducts;
-  const [checked, setChecked] = useState(false);
   const [filter, setFilter] = useState<string[] | never>([]);
-
   let catalogSecondFilterList;
   if (selectedSorCatalog === 'null') {
     sortProducts = products;
@@ -37,14 +35,15 @@ function Catalog(): JSX.Element {
     res = sortProducts.filter((product) => filter.some((tag) => (product.type.includes(tag))));
   }
 
+
   function handleChangeSort(item: string) {
     if(item === selectedSorCatalog) {
       dispatch(changeCatalogSort('null'));
       setFilter([]);
-    } else{
+    } else {
       dispatch(changeCatalogSort(item));
       setFilter([]);
-      setChecked(false);
+
     }
   }
 
@@ -84,9 +83,8 @@ function Catalog(): JSX.Element {
                   <ul className="catalog-filter__list catalog-filter__list--second-level">
                     {catalogSecondFilterList !== undefined &&
                       catalogSecondFilterList.map((item) => (
-                        <CatalogSecondFilter checked={checked} key={item.ru}
+                        <CatalogSecondFilter key={item.ru}
                           itemRu={item.ru} itemEn={item.en} setFilter={setFilter} filter={filter}
-                          setChecked={setChecked}
                         />
                       ))}
                   </ul>

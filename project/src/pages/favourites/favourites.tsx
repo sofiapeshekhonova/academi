@@ -9,6 +9,7 @@ import ErrorPage from '../error-page/error-page';
 function Favourites(): JSX.Element {
   const favProducts = useAppSelector(getFavoritesProducts);
   const favProductsStatus = useAppSelector(getFavoritesStatus);
+
   if(favProductsStatus === Status.Failed) {
     return <ErrorPage />;
   }

@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { AppRoute } from '../../constants';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import HistoryRouter from '../history-route/history-route';
@@ -19,6 +19,7 @@ function App(): JSX.Element {
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>
+        <Route path='/' element={<Navigate to={AppRoute.Index} />} />
         <Route path={AppRoute.ProductPage} element={<ProductPage />} />
         <Route path={AppRoute.Index} element={<Index />} />
         <Route path={AppRoute.SignUp} element={<RegisterPage />} />
