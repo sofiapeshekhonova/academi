@@ -79,6 +79,21 @@ export const SortRatingList = [
   'Любой', 'Высокий', 'Низкий'
 ];
 
+export const SecondSortRatingList = [
+  {id: 'first', className: 'filter-sort__sort-btn filter-sort__sort-btn--inc', name: 'сортировка по возрастанию'},
+  {id: 'second', className: 'filter-sort__sort-btn filter-sort__sort-btn--desc', name: 'сортировка по убыванию'}
+];
+
+export function SortDateComments(comments: ReviewsType[], sortListItem: string) {
+  switch (sortListItem) {
+    case 'first':
+      return comments.slice().sort((a, b) => a.isoDate < b.isoDate ? 1 : -1);
+    case 'second':
+      return comments.slice().sort((a, b) => a.isoDate > b.isoDate ? 1 : -1);
+    default:
+      return comments.slice().sort((a, b) => a.isoDate < b.isoDate ? 1 : -1);
+  }
+}
 export function SortCards(comments: ReviewsType[], sortListItem: string) {
   switch (sortListItem) {
     case SortRatingList[0]:
