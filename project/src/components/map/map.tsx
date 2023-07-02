@@ -4,7 +4,7 @@ import MapAdress from '../map-adress/map-adress';
 import MapPicture from '../map-picture/map-picture';
 
 function Map() {
-  const [activeLink, setActiveLink] = useState<null | number>(3);
+  const [activeLink, setActiveLink] = useState<null | number>(1);
 
   return (
     <section className="map">
@@ -17,6 +17,7 @@ function Map() {
               address={place.location.address}
               name={place.location.name}
               id={place.id}
+              activeLink={activeLink}
               setActiveLink={setActiveLink}
             />
           ))}

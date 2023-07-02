@@ -8,8 +8,8 @@ import 'leaflet/dist/leaflet.css';
 function createIcon(icon: string): BaseIconOptions {
   return {
     iconUrl: icon,
-    iconSize: [26, 24],
-    iconAnchor: [26, 24],
+    iconSize: [30, 30],
+    iconAnchor: [30, 30],
   };
 }
 

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import CatalogSecondFilter from '../../components/catalog-second-filter/catalog-second-filter';
 import ComponentsItems from '../../components/components-items/components-items';
 import { CatalogFilterList, CatalogList, SortCatalog, Status } from '../../constants';

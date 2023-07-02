@@ -31,7 +31,7 @@ function LoginForm() {
     password: {
       value: '',
       isValid: false,
-      error: 'Должен содержать одну букву и цифру',
+      error: 'Пароль должен содержать одну буву и цифру',
       regex: /\d+[a-zA-Z]+|[a-zA-Z]+\d+/,
       hasValue: false,
     },
@@ -64,6 +64,7 @@ function LoginForm() {
   const errorPassword = !formValue.password.isValid && formValue.password.hasValue;
   return (
     <form action="#" method="post" autoComplete="off" onSubmit={handleSubmit} noValidate>
+      <p style={{color: 'red'}}>{loginStatus === Status.Failed && 'Что-то пошло не так'}</p>
       <div className="login-page__fields">
         <div className="custom-input login-page__field">
           <label>
@@ -81,7 +82,7 @@ function LoginForm() {
         <div className="custom-input login-page__field">
           <label>
             <span className={`${errorPassword ? 'custom-input__message' : 'custom-input__label'}`} style={{ paddingRight: '40px' }}>
-              {!errorPassword ? formValue.password.error : 'Введите ваш пароль'}
+              {!errorPassword ? formValue.password.error : 'Пароль должен содержать одну буву и цифру'}
             </span>
             <input type="password" name="password"
               placeholder="Пароль" required

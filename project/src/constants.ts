@@ -20,13 +20,13 @@ export enum Namespace {
 }
 
 export enum APIRoute {
-  Products = '/v0/keks/products',
-  Comments = '/v0/keks/reviews/',
-  Login = '/v0/keks/users/login',
-  Logout = '/v0/keks/users/logout',
-  Registration = '/v0/keks/users/registration',
-  Favorites = '/v0/keks/favorites',
-  DeleteFavorites = '/v0/keks/favorites'
+  Products = 'products',
+  Comments = 'reviews/',
+  Login = 'users/login',
+  Logout = 'users/logout',
+  Registration = 'users/registration',
+  Favorites = 'favorites',
+  DeleteFavorites = 'favorites'
 }
 
 export enum AuthorizationStatus {

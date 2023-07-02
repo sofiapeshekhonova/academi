@@ -8,6 +8,7 @@ import { UserData } from '../types/user/user.js';
 import { AuthData, AuthDataRegister } from '../types/auth-data.js';
 import { dropToken, saveToken } from '../services/token';
 import { redirectToRoute } from './action';
+import { toast } from 'react-toastify';
 
 export const fetchProductsAction = createAsyncThunk<Product[], undefined, {
   state: State;
@@ -77,6 +78,10 @@ export const registrationAction = createAsyncThunk<UserData, AuthDataRegister, {
   'user/registration',
   async ({ email, password, name}, {dispatch, extra: api }) => {
     const { data } = await api.post<UserData>(APIRoute.Registration, { email, password, name });
+    saveToken(data.token);
+    toast.success('Регистрация прошла успешно',
+      {position: toast.POSITION.TOP_RIGHT});
+    dispatch(redirectToRoute(AppRoute.logIn));
     return data;
   },
 );
@@ -90,6 +95,7 @@ export const loginAction = createAsyncThunk<UserData, AuthData, {
   async ({ email, password }, {dispatch, extra: api }) => {
     const { data } = await api.post<UserData>(APIRoute.Login, { email, password });
     saveToken(data.token);
+    dispatch(fetchFavoritesProductsAction());
     return data;
   },
 );

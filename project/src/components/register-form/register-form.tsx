@@ -83,6 +83,7 @@ function RegisterForm() {
   //const errorEmail = !formValue.email.isValid && formValue.email.hasValue;
   return(
     <form action="#" method="post" autoComplete="off" onSubmit={handleSubmit}>
+      <p style={{color: 'red'}}>{registerStatus === Status.Failed && 'Что-то пошло не так'}</p>
       <div className="register-page__fields">
         <div className="custom-input register-page__field">
           <label>
@@ -143,6 +144,7 @@ function RegisterForm() {
       >
         {registerStatus === Status.Loading ? 'Загрузка..' : 'Зарегистрироваться'}
       </button>
+
     </form>
   );
 }
