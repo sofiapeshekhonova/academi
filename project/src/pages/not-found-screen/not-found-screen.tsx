@@ -4,7 +4,7 @@ import { AppRoute } from '../../constants';
 
 function NotFoundScreen(): JSX.Element {
   return (
-    <Layout>
+    <Layout title='Кондитерская Кекс - 404'>
       <h1 className="visually-hidden">404</h1>
       <section className="error-page">
         <div className="container">

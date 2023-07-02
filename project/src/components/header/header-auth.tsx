@@ -11,8 +11,8 @@ type PropsType = {
 
 function HeaderAuth({ user }: PropsType) {
   const favProducts = useAppSelector(getFavoritesProducts);
-
   const dispatch = useAppDispatch();
+
   function handleClick() {
     dispatch(logoutAction());
   }

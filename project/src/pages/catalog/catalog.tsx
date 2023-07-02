@@ -51,7 +51,7 @@ function Catalog(): JSX.Element {
   }
 
   return (
-    <Layout>
+    <Layout title='- Карточка товара.'>
       {productsStatus === Status.Failed ? <ErrorPage /> :
         <main>
           <h1 className="visually-hidden">Каталог товаров</h1>

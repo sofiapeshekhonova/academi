@@ -71,7 +71,7 @@ function ProductPage(): JSX.Element {
   }
 
   return (
-    <Layout>
+    <Layout title='- Каталог'>
       <main>
         <div className="back-link">
           <div className="container">

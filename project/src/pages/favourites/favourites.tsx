@@ -15,7 +15,7 @@ function Favourites(): JSX.Element {
   }
 
   return (
-    <Layout>
+    <Layout title='- Избранное'>
       {favProducts.length > 0 ? <FoolFavorites /> : <EmptyFavorites />}
     </Layout>
   );

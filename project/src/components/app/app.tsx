@@ -12,29 +12,32 @@ import Favourites from '../../pages/favourites/favourites';
 import RegisterPage from '../../pages/register-page/register-page';
 import { useAppSelector } from '../../hooks';
 import { getAuthorizationStatus } from '../../store/user/selectors';
+import { HelmetProvider } from 'react-helmet-async';
 
 function App(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
-    <HistoryRouter history={browserHistory}>
-      <Routes>
-        <Route path='/' element={<Navigate to={AppRoute.Index} />} />
-        <Route path={AppRoute.ProductPage} element={<ProductPage />} />
-        <Route path={AppRoute.Index} element={<Index />} />
-        <Route path={AppRoute.SignUp} element={<RegisterPage />} />
-        <Route path={AppRoute.logIn} element={<Login />} />
-        <Route path={AppRoute.Catalog} element={<Catalog />} />
-        <Route path={AppRoute.Favourites}
-          element={
-            <PrivateRoute authorizationStatus={authorizationStatus}>
-              <Favourites />
-            </PrivateRoute>
-          }
-        />
-        <Route path={AppRoute.NotFoundPage} element={<NotFoundScreen />} />
-      </Routes>
-    </HistoryRouter>
+    <HelmetProvider>
+      <HistoryRouter history={browserHistory}>
+        <Routes>
+          <Route path='/' element={<Navigate to={AppRoute.Index} />} />
+          <Route path={AppRoute.ProductPage} element={<ProductPage />} />
+          <Route path={AppRoute.Index} element={<Index />} />
+          <Route path={AppRoute.SignUp} element={<RegisterPage />} />
+          <Route path={AppRoute.logIn} element={<Login />} />
+          <Route path={AppRoute.Catalog} element={<Catalog />} />
+          <Route path={AppRoute.Favourites}
+            element={
+              <PrivateRoute authorizationStatus={authorizationStatus}>
+                <Favourites />
+              </PrivateRoute>
+            }
+          />
+          <Route path={AppRoute.NotFoundPage} element={<NotFoundScreen />} />
+        </Routes>
+      </HistoryRouter>
+    </HelmetProvider>
   );
 }
 

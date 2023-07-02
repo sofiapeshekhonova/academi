@@ -8,6 +8,7 @@ import { useAppSelector } from '../../hooks';
 import { SortProductsRandom } from '../../untils/sort-products';
 import { getProducts, getStatus } from '../../store/products/selectors';
 
+
 function Index(): JSX.Element {
   const products = useAppSelector(getProducts);
   const productsCopy = products.slice(0);
@@ -15,7 +16,7 @@ function Index(): JSX.Element {
   const sortedProducts = SortProductsRandom(productsCopy);
 
   return (
-    <Layout>
+    <Layout title='- Главная'>
       <main>
         <div className="hero">
           <div className="container">
@@ -31,6 +32,7 @@ function Index(): JSX.Element {
             </div>
           </div>
         </div>
+
         <section className="random-main">
           <div className="container">
             <h2 className="random-main__title">кексы</h2>
