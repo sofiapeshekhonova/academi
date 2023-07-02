@@ -7,6 +7,7 @@ import { AppRoute, Status } from '../../constants';
 import { useAppSelector } from '../../hooks';
 import { SortProductsRandom } from '../../untils/sort-products';
 import { getProducts, getStatus } from '../../store/products/selectors';
+import LastReview from '../../components/last-review/last-review';
 
 
 function Index(): JSX.Element {
@@ -32,50 +33,17 @@ function Index(): JSX.Element {
             </div>
           </div>
         </div>
-
         <section className="random-main">
           <div className="container">
             <h2 className="random-main__title">кексы</h2>
             {productsStatus === Status.Loading ? <LoadingScreen /> : <RandomProductsList products={sortedProducts} />}
           </div>
         </section>
-        <section className="last-review">
-          <div className="container">
-            <h2 className="last-review__title">последний отзыв</h2>
-            <div className="review">
-              <div className="review__inner-wrapper review__inner-wrapper--border">
-                <time className="review__date" dateTime="2023-05-15">15.05</time><span className="review__author">Уважаемый(-ая) Кот</span>
-                <div className="star-rating">
-                  <svg className="star-rating__star star-rating__star--active" width="30" height="30" aria-hidden="true">
-                    <use xlinkHref="#icon-star"></use>
-                  </svg>
-                  <svg className="star-rating__star star-rating__star--active" width="30" height="30" aria-hidden="true">
-                    <use xlinkHref="#icon-star"></use>
-                  </svg>
-                  <svg className="star-rating__star star-rating__star--active" width="30" height="30" aria-hidden="true">
-                    <use xlinkHref="#icon-star"></use>
-                  </svg>
-                  <svg className="star-rating__star star-rating__star--active" width="30" height="30" aria-hidden="true">
-                    <use xlinkHref="#icon-star"></use>
-                  </svg>
-                  <svg className="star-rating__star star-rating__star--active" width="30" height="30" aria-hidden="true">
-                    <use xlinkHref="#icon-star"></use>
-                  </svg>
-                </div>
-                <div className="review__text-wrapper">
-                  <p className="review__text">&quot;Отличный сервис! Очень вкусный, сочный и&nbsp;яркий торт. Удобная коробка для транспортировки. Свежие фрукты и&nbsp;съедобный дизайн.</p>
-                  <p className="review__text">Недостатков нет, обязательно будем заказывать и&nbsp;приходить в&nbsp;Кексик</p>
-                </div>
-                <div className="review__image-wrapper">
-                  <picture>
-                    <source type="image/webp" srcSet="img/content/review-1.webp, img/content/review-1@2x.webp 2x" />
-                    <img src="img/content/review-1.jpg" srcSet="img/content/review-1@2x.jpg 2x" width="162" height="162" alt="Кот" />
-                  </picture>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* т.к. сортирова по дате не возможна 1. у вас с сервера все коментарии приходят с одинаковой датой 2. нет общего списка коментариев,
+          да, можно было взять все id, сложить их в массив один и идти по массиву и отправлять запросы на сервер, затем сложить все коментарии в общий массив
+          но это займент слишком много времени, особенно если товаров тысячи
+          поэтому я взяла рандомный товар и достала у него коментарий, если коментария нет, то перутся данные из констант */}
+        {productsStatus === Status.Success ? <LastReview product={sortedProducts[0]}/> : ''}
         <Map />
       </main>
     </Layout>

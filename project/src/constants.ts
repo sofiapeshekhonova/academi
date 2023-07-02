@@ -67,8 +67,8 @@ export const SORT_RATING_LIST = [
 ];
 
 export const SECOND_SORT_RATING_LIST = [
-  {id: 'first', className: 'filter-sort__sort-btn filter-sort__sort-btn--inc', name: 'сортировка по возрастанию'},
-  {id: 'second', className: 'filter-sort__sort-btn filter-sort__sort-btn--desc', name: 'сортировка по убыванию'}
+  { id: 'first', className: 'filter-sort__sort-btn filter-sort__sort-btn--inc', name: 'сортировка по возрастанию' },
+  { id: 'second', className: 'filter-sort__sort-btn filter-sort__sort-btn--desc', name: 'сортировка по убыванию' }
 ];
 
 export const CATALOG_FITER_LIST = ['Бисквит', 'Десерт', 'Чизкейк', 'Песочное'];
@@ -169,3 +169,28 @@ export const COUNT_COMMENTS = 2;
 
 export const MIN_CHARACTERS = 2;
 export const MAX_CHARACTERS = 500;
+
+export const COMMENTS = [{
+  'id': 'a427f2c1-fdc6-497c-811d-94285035080c',
+  'positive': 'Нравится вкус изделий, отличный сервис и персонал, спасибо Вам!',
+  'negative': 'Отличный сервис! Отзывчивы персонал, но вкус не обрадовал: украшения подсохли, начинка слишком сладкая. На любителя.',
+  'rating': 5,
+  'user': {
+    'name': 'Елена',
+    'avatarUrl': 'https://grading.design.pages.academy/static/keks/avatar/haty.jpg'
+  },
+  'isoDate': '2023-07-02T10:10:31.931Z',
+
+},
+{
+  'id': '8ca0d0a8-07aa-4846-81d9-dc920920fb61',
+  'positive': 'Хотелось бы узнать все секретные рецепты кондитера, очень вкусно.',
+  'negative': 'Оказалось не таким на вкус, как по описанию.',
+  'rating': 0,
+  'user': {
+    'name': 'Алина',
+    'avatarUrl': 'https://grading.design.pages.academy/static/keks/avatar/cat.jpg'
+  },
+  'isoDate': '2023-07-02T10:16:10.185Z'
+}
+];

@@ -1,11 +1,11 @@
-import { SORT_RATING_LIST } from '../constants';
+import { SECOND_SORT_RATING_LIST, SORT_RATING_LIST } from '../constants';
 import { ReviewsType } from '../types/review';
 
 export function SortDateComments(comments: ReviewsType[], sortListItem: string) {
   switch (sortListItem) {
-    case 'first':
+    case SECOND_SORT_RATING_LIST[0].id:
       return comments.slice().sort((a, b) => a.isoDate < b.isoDate ? 1 : -1);
-    case 'second':
+    case SECOND_SORT_RATING_LIST[1].id:
       return comments.slice().sort((a, b) => a.isoDate > b.isoDate ? 1 : -1);
     default:
       return comments.slice().sort((a, b) => a.isoDate < b.isoDate ? 1 : -1);
