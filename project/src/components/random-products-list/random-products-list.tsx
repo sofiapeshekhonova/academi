@@ -9,11 +9,12 @@ import ErrorPage from '../../pages/error-page/error-page';
 type Props = {
   products: Product[];
 }
+
 function RandomProductsList({ products }: Props) {
   const slice = products.slice(0, 3);
   const productsStatus = useAppSelector(getStatus);
 
-  if(productsStatus === Status.Failed) {
+  if (productsStatus === Status.Failed) {
     return <ErrorPage />;
   }
 

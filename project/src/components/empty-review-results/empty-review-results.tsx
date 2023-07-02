@@ -1,4 +1,5 @@
 function EmptyReviewResults() {
+
   return (
     <section className="empty-results">
       <div className="container">

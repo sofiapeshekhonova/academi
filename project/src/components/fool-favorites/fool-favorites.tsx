@@ -1,19 +1,20 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getFavoritesProducts, getFavoritesStatus } from '../../store/products/selectors';
-import CatalogItem from '../catalog-item/catalog-item';
-import './fool-favorites.css';
-import { AppRoute, Status } from '../../constants';
-import { deleteFavoriteProductsAction } from '../../store/api-actions';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { AppRoute, Status } from '../../constants';
+import CatalogItem from '../catalog-item/catalog-item';
+import { getFavoritesProducts, getFavoritesStatus } from '../../store/products/selectors';
+import { deleteFavoriteProductsAction } from '../../store/api-actions';
+import './fool-favorites.css';
 
 function FoolFavorites() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const favProducts = useAppSelector(getFavoritesProducts);
   const favProductsStatus = useAppSelector(getFavoritesStatus);
-  const dispatch = useAppDispatch();
+
   const sum = favProducts.reduce((a, b) => a + b.price, 0);
   const favProductsId = favProducts.map((i) => i.id);
-  const navigate = useNavigate();
 
   function handleDeleteAllClick() {
     favProductsId.forEach((element) => {

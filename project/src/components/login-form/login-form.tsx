@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { AuthData } from '../../types/auth-data';
 import { loginAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { Status } from '../../constants';
+import { EMAIL_ERROR_TEXT, EMAIL_REGEX, PASSWORD_ERROR_TEXT, PASSWORD_REGEX, Status } from '../../constants';
 import { getStatus } from '../../store/user/selectors';
 
 type Props = {
@@ -24,15 +24,15 @@ function LoginForm() {
     email: {
       value: '',
       isValid: false,
-      error: 'Введите почту',
-      regex: /[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/,
+      error: EMAIL_ERROR_TEXT,
+      regex: EMAIL_REGEX,
       hasValue: false,
     },
     password: {
       value: '',
       isValid: false,
-      error: 'Пароль должен содержать одну буву и цифру',
-      regex: /\d+[a-zA-Z]+|[a-zA-Z]+\d+/,
+      error: PASSWORD_ERROR_TEXT,
+      regex: PASSWORD_REGEX,
       hasValue: false,
     },
   });
@@ -64,12 +64,12 @@ function LoginForm() {
   const errorPassword = !formValue.password.isValid && formValue.password.hasValue;
   return (
     <form action="#" method="post" autoComplete="off" onSubmit={handleSubmit} noValidate>
-      <p style={{color: 'red'}}>{loginStatus === Status.Failed && 'Что-то пошло не так'}</p>
+      <p style={{ color: 'red' }}>{loginStatus === Status.Failed && 'Что-то пошло не так'}</p>
       <div className="login-page__fields">
         <div className="custom-input login-page__field">
           <label>
             <span className={`${error ? 'custom-input__message' : 'custom-input__label'}`} style={{ paddingRight: '30px' }}>
-              {error ? formValue.email.error : 'Введите вашу почту'}
+              {error ? formValue.email.error : EMAIL_ERROR_TEXT}
             </span>
             <input
               type="email" name="email"
@@ -82,7 +82,7 @@ function LoginForm() {
         <div className="custom-input login-page__field">
           <label>
             <span className={`${errorPassword ? 'custom-input__message' : 'custom-input__label'}`} style={{ paddingRight: '40px' }}>
-              {!errorPassword ? formValue.password.error : 'Пароль должен содержать одну буву и цифру'}
+              {!errorPassword ? formValue.password.error : PASSWORD_ERROR_TEXT}
             </span>
             <input type="password" name="password"
               placeholder="Пароль" required

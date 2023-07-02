@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../hooks';
-import { getAuthorizationStatus, getUserInformations } from '../../store/user/selectors';
-import { AppRoute, AuthorizationStatus } from '../../constants';
 import HeaderAuth from './header-auth';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
+import { useAppSelector } from '../../hooks';
+import { AppRoute, AuthorizationStatus } from '../../constants';
+import { getAuthorizationStatus, getUserInformations } from '../../store/user/selectors';
 
 function Header() {
   const user = useAppSelector(getUserInformations);

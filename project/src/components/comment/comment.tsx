@@ -6,7 +6,7 @@ type PropsType = {
   comment: ReviewsType;
 }
 
-function Comment({comment}: PropsType) {
+function Comment({ comment }: PropsType) {
   const date = comment.isoDate.substring(0, 10);
   const month = comment.isoDate.substring(5, 7);
   const day = comment.isoDate.substring(8, 10);
@@ -18,7 +18,7 @@ function Comment({comment}: PropsType) {
         <span className="review__author">Уважаемый(-ая) {comment.user.name}</span>
         <div className="star-rating">
           {STARS.map((star) => (
-            <Rating key={star.id} starId={star.id} star={star.rating} rating={comment.rating}/>
+            <Rating key={star.id} star={star.rating} rating={comment.rating} />
           ))}
         </div>
         <div className="review__text-wrapper">

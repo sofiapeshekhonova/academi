@@ -1,17 +1,18 @@
 import { useCallback, useState } from 'react';
 import { ReviewsType } from '../../types/review';
 import Comment from '../comment/comment';
+import { COUNT_COMMENTS } from '../../constants';
 
 type PropsType = {
   comments: ReviewsType[];
 }
 
 function ProductComments({ comments }: PropsType) {
-  const [countComments, setCountComments] = useState(2);
+  const [countComments, setCountComments] = useState(COUNT_COMMENTS);
 
   const handleShoeMoreButton = useCallback(() => {
     if (comments.length !== 0) {
-      setCountComments(countComments + 2);
+      setCountComments(countComments + COUNT_COMMENTS);
     }
   }, [countComments, comments.length]);
 
@@ -25,7 +26,7 @@ function ProductComments({ comments }: PropsType) {
           ))}
         </div>
         <div className="comments__show-more">
-          {comments.length > 2 && countComments < comments.length && countComments !== comments.length &&
+          {comments.length > COUNT_COMMENTS && countComments < comments.length && countComments !== comments.length &&
             <button className="btn btn--second comments__button" type="button" onClick={handleShoeMoreButton}>Показать еще</button>}
         </div>
       </div>

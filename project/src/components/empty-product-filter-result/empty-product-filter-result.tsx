@@ -1,11 +1,12 @@
-import { SortRatingList } from '../../constants';
+import { SORT_RATING_LIST } from '../../constants';
 import { useAppDispatch } from '../../hooks';
 import { changeCommentsSort } from '../../store/app/app';
 
 function EmptyProductFilterResult() {
   const dispatch = useAppDispatch();
+
   function handleTurnFilterOf() {
-    dispatch(changeCommentsSort(SortRatingList[0]));
+    dispatch(changeCommentsSort(SORT_RATING_LIST[0]));
   }
 
   return (

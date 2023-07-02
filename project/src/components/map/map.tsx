@@ -10,7 +10,7 @@ function Map() {
     <section className="map">
       <div className="container">
         <h2 className="map__title">адреса</h2>
-        <MapPicture activeLink={activeLink}/>
+        <MapPicture activeLink={activeLink} />
         <ul className="map__addresses">
           {PLACES.map((place) => (
             <MapAdress key={place.id}

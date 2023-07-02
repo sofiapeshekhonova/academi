@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom';
-import { UserData } from '../../types/user/user';
+import { UserData } from '../../types/user';
 import { AppRoute } from '../../constants';
-import { logoutAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { logoutAction } from '../../store/api-actions';
 import { getFavoritesProducts } from '../../store/products/selectors';
 
 type PropsType = {
   user: UserData | null;
 }
 
-function HeaderAuth({user}: PropsType) {
+function HeaderAuth({ user }: PropsType) {
   const favProducts = useAppSelector(getFavoritesProducts);
 
   const dispatch = useAppDispatch();

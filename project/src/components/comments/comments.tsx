@@ -6,6 +6,7 @@ type PropsType = {
   selectedSortItem: string;
   comments: ReviewsType[];
 }
+
 function Comments({ selectedSortItem, comments }: PropsType) {
   return (
     <>

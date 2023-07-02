@@ -1,17 +1,18 @@
 import { Link } from 'react-router-dom';
-import { AppRoute, Status, SortProducts } from '../../constants';
-import { useAppSelector } from '../../hooks';
-import { getProducts, getStatus } from '../../store/products/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
 import RandomProductsList from '../../components/random-products-list/random-products-list';
 import Map from '../../components/map/map';
 import Layout from '../../components/layout/layout';
+import { AppRoute, Status } from '../../constants';
+import { useAppSelector } from '../../hooks';
+import { SortProductsRandom } from '../../untils/sort-products';
+import { getProducts, getStatus } from '../../store/products/selectors';
 
 function Index(): JSX.Element {
   const products = useAppSelector(getProducts);
   const productsCopy = products.slice(0);
   const productsStatus = useAppSelector(getStatus);
-  const sortedProducts = SortProducts(productsCopy);
+  const sortedProducts = SortProductsRandom(productsCopy);
 
   return (
     <Layout>

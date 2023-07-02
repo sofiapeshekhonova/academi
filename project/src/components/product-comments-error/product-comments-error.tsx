@@ -2,7 +2,7 @@ type PropsType = {
   showComments: () => JSX.Element;
 }
 
-function ProductCommentsError({showComments}: PropsType) {
+function ProductCommentsError({ showComments }: PropsType) {
   //document.location.reload();
   return (
     <section className="error-comments">

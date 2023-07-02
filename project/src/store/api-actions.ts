@@ -4,7 +4,7 @@ import {AppDispatch, State} from '../types/state.js';
 import { APIRoute, AppRoute } from '../constants';
 import { ActiveProduct, FavoritesProducts, Product } from '../types/product.js';
 import { CommentType, ReviewsPostType, ReviewsType } from '../types/review.js';
-import { UserData } from '../types/user/user.js';
+import { UserData } from '../types/user.js';
 import { AuthData, AuthDataRegister } from '../types/auth-data.js';
 import { dropToken, saveToken } from '../services/token';
 import { redirectToRoute } from './action';

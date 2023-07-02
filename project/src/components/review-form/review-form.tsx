@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { STARSS, Status } from '../../constants';
+import { MAX_CHARACTERS, MIN_CHARACTERS, STARSS, Status } from '../../constants';
 import StarsInput from '../stars-input/stars-input';
 import { postProductCommentsAction } from '../../store/api-actions';
 import { getCommentStatus } from '../../store/comments/selectors';
@@ -13,10 +13,7 @@ type PropsType = {
 
 function ReviewForm({ roomId, setOpenReview, openReview }: PropsType) {
   const dispatch = useAppDispatch();
-
   const postStatus = useAppSelector(getCommentStatus);
-  const minCharacters = 2;
-  const maxCharacters = 500;
   const [form, setForm] = useState(true);
   const [formData, setFormData] = useState({
     rating: 0,
@@ -39,16 +36,16 @@ function ReviewForm({ roomId, setOpenReview, openReview }: PropsType) {
   // ТАКУЮ ВАЛИДАЦИЮ НУЖНО ДЕЛАТЬ ПО ВАШИМ УСЛОВИЯМ, НО ОНА НЕ ПРОХОДИТ, Т.к. ваш север простит ОБА поля заполненны при любом рейтинге
   // const disabled = () => {
   //   if (formData.rating > 3) {
-  //     return formData.positive.length <= minCharacters || formData.rating === 0 || formData.positive.length >= maxCharacters || postStatus === Status.Loading;
+  //     return formData.positive.length <= MIN_CHARACTERS || formData.rating === 0 || formData.positive.length >= MAX_CHARACTERS || postStatus === Status.Loading;
   //   } else if(formData.rating < 4) {
-  //     return formData.negative.length <= minCharacters || formData.rating === 0 || formData.negative.length >= maxCharacters || postStatus === Status.Loading;
+  //     return formData.negative.length <= MIN_CHARACTERS || formData.rating === 0 || formData.negative.length >= MAX_CHARACTERS || postStatus === Status.Loading;
   //   }
   // };
 
   //  РАБОЧАЯ ВАЛИДАЦИЯ ДЛЯ ВАШЕГО СЕРВЕРА
-  const disabled = () => formData.negative.length <= minCharacters ||
-    formData.positive.length <= minCharacters || formData.rating === 0 ||
-    formData.negative.length >= maxCharacters || formData.positive.length >= maxCharacters ||
+  const disabled = () => formData.negative.length <= MIN_CHARACTERS ||
+    formData.positive.length <= MIN_CHARACTERS || formData.rating === 0 ||
+    formData.negative.length >= MAX_CHARACTERS || formData.positive.length >= MAX_CHARACTERS ||
     postStatus === Status.Loading;
 
   useEffect(() => {
@@ -71,9 +68,9 @@ function ReviewForm({ roomId, setOpenReview, openReview }: PropsType) {
                 <div className="custom-input">
                   <label>
                     <span className='custom-input__message' style={{ paddingRight: '30px' }}>
-                      {(formData.positive && formData.positive.length < minCharacters + 1) && <b> Нужно ввести {minCharacters} символа</b>}
-                      {(formData.positive && formData.positive.length > minCharacters + 1 && !(formData.positive.length >= maxCharacters + 1)) && <b> Осталось символов: {maxCharacters + 1 - formData.positive.length}</b>}
-                      {(formData.positive && formData.positive.length >= maxCharacters + 1) && <b > Максимально {maxCharacters} Символов </b>}
+                      {(formData.positive && formData.positive.length < MIN_CHARACTERS + 1) && <b> Нужно ввести {MIN_CHARACTERS} символа</b>}
+                      {(formData.positive && formData.positive.length > MIN_CHARACTERS + 1 && !(formData.positive.length >= MAX_CHARACTERS + 1)) && <b> Осталось символов: {MAX_CHARACTERS + 1 - formData.positive.length}</b>}
+                      {(formData.positive && formData.positive.length >= MAX_CHARACTERS + 1) && <b > Максимально {MAX_CHARACTERS} Символов </b>}
                     </span>
                     <input type="text" name="positive" placeholder="Достоинства" required={formData.rating > 3}
                       id="positive"
@@ -86,9 +83,9 @@ function ReviewForm({ roomId, setOpenReview, openReview }: PropsType) {
                 <div className="custom-input">
                   <label>
                     <span className='custom-input__message' style={{ paddingRight: '30px' }}>
-                      {(formData.negative && formData.negative.length < minCharacters + 1) && <b> Нужно ввести {minCharacters} символа</b>}
-                      {(formData.negative && formData.negative.length > minCharacters + 1 && !(formData.negative.length >= maxCharacters + 1)) && <b> Осталось символов: {maxCharacters + 1 - formData.negative.length}</b>}
-                      {(formData.negative && formData.negative.length >= maxCharacters + 1) && <b > Максимально {maxCharacters} Символов </b>}
+                      {(formData.negative && formData.negative.length < MIN_CHARACTERS + 1) && <b> Нужно ввести {MIN_CHARACTERS} символа</b>}
+                      {(formData.negative && formData.negative.length > MIN_CHARACTERS + 1 && !(formData.negative.length >= MAX_CHARACTERS + 1)) && <b> Осталось символов: {MAX_CHARACTERS + 1 - formData.negative.length}</b>}
+                      {(formData.negative && formData.negative.length >= MAX_CHARACTERS + 1) && <b > Максимально {MAX_CHARACTERS} Символов </b>}
                     </span>
                     <span className="custom-input__label">Недостатки</span>
                     <input type="text" name="negative" placeholder="Недостатки" required={formData.rating < 4}
@@ -114,7 +111,7 @@ function ReviewForm({ roomId, setOpenReview, openReview }: PropsType) {
                   </button>
                 </div>
                 <p style={{ color: 'red' }}>
-                  Для отправки ревью необходимо поставить <b> рейтинг </b> и заполнить оба поля <b>{minCharacters} символами</b>.
+                  Для отправки ревью необходимо поставить <b> рейтинг </b> и заполнить оба поля <b>{MIN_CHARACTERS} символами</b>.
                 </p>
                 {postStatus === Status.Failed && <p>Something gooing wrong...</p>}
               </div>

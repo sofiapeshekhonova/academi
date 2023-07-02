@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SecondSortRatingList, SortRatingList } from '../../constants';
+import { SECOND_SORT_RATING_LIST, SORT_RATING_LIST } from '../../constants';
 import FilterItem from '../filter-item/filter-item';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeCommentsSecondSort, changeCommentsSort } from '../../store/app/app';
@@ -8,6 +8,7 @@ import { getSecondSortCommentsItem } from '../../store/app/selectors';
 type PropsType = {
   selectedSortItem: string;
 }
+
 function FilterCommentsSort({ selectedSortItem }: PropsType) {
   const dispatch = useAppDispatch();
   const selectedSortItemSecond = useAppSelector(getSecondSortCommentsItem);
@@ -22,7 +23,7 @@ function FilterCommentsSort({ selectedSortItem }: PropsType) {
     setIsOpenSortList(false);
   }
 
-  function handleSelectSort(item: string) {
+  function handleSelectSecondSort(item: string) {
     dispatch(changeCommentsSecondSort(item));
   }
 
@@ -40,7 +41,7 @@ function FilterCommentsSort({ selectedSortItem }: PropsType) {
               </button>
               {isOpenSortList && (
                 <ul className="filter-sort__filter-list" >
-                  {SortRatingList.map((item) =>
+                  {SORT_RATING_LIST.map((item) =>
                     <FilterItem key={item} item={item} handelChooseSort={handelChooseSort} selectedSortItem={selectedSortItem} />
                   )}
                 </ul>
@@ -50,10 +51,10 @@ function FilterCommentsSort({ selectedSortItem }: PropsType) {
           <div className="filter-sort__sort-wrap">
             <h3 className="filter-sort__sort-title">Сортировать по дате</h3>
             <div className="filter-sort__sort-btns-wrap">
-              {SecondSortRatingList.map((item) => (
+              {SECOND_SORT_RATING_LIST.map((item) => (
                 <button key={item.id}
                   className={`${item.className} ${item.id === selectedSortItemSecond ? 'filter-sort__sort-btn--active' : ''}`}
-                  id={item.id} onClick={() => handleSelectSort(item.id)} type="button" aria-label={item.name}
+                  id={item.id} onClick={() => handleSelectSecondSort(item.id)} type="button" aria-label={item.name}
                 >
                   <svg className="filter-sort__sort-icon" width="19" height="13" aria-hidden="true">
                     <use xlinkHref="#icon-chevron-top"></use>

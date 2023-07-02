@@ -1,8 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Product } from '../../types/product';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getAuthorizationStatus } from '../../store/user/selectors';
 import { AppRoute, AuthorizationStatus } from '../../constants';
+import { getAuthorizationStatus } from '../../store/user/selectors';
 import { deleteFavoriteProductsAction, putFavoriteProductsAction } from '../../store/api-actions';
 import { getFavoritesProducts } from '../../store/products/selectors';
 
@@ -19,7 +19,6 @@ function CatalogItem({ product }: PropsType) {
   const favProducts = useAppSelector(getFavoritesProducts);
   const favProductsId = favProducts.map((i) => i.id);
   const isFavorite = favProductsId.includes(product.id);
-
 
   const buttonClassName = isFavorite === true ? 'card-item__favorites card-item__favorites--active' : 'card-item__favorites';
   const buttonText = isFavorite === true ? 'Добавить в избранное' : 'Удалить из избранного';

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus, STARS } from '../../constants';
 import { ActiveProduct } from '../../types/product';
 import Rating from '../rating/rating';
@@ -6,7 +7,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getFavoritesProducts } from '../../store/products/selectors';
 import { getAuthorizationStatus } from '../../store/user/selectors';
 import { deleteFavoriteProductsAction, putFavoriteProductsAction } from '../../store/api-actions';
-import { useNavigate } from 'react-router-dom';
 
 type PropsType = {
   product: ActiveProduct;
@@ -20,7 +20,14 @@ function ProductDetails({ product, openReview, setOpenReview }: PropsType) {
   const navigate = useNavigate();
   const [length, setLength] = useState(140);
   const [description, setDescription] = useState(product.description);
-
+  const favProducts = useAppSelector(getFavoritesProducts);
+  const favProductsId = favProducts.map((i) => i.id);
+  const isFavorite = favProductsId.includes(product.id);
+  const buttonClassName = isFavorite === true ? 'item-details__like-button item-details__like-button--active' : 'item-details__like-button';
+  const buttonText = isFavorite === true ? 'Добавить в избранное' : 'Удалить из избранного';
+  const data = {
+    productId: product.id,
+  };
 
   useEffect(() => {
     setDescription(product.description.slice(0, length));
@@ -30,15 +37,6 @@ function ProductDetails({ product, openReview, setOpenReview }: PropsType) {
     setLength(product.description.length);
   }
 
-  const favProducts = useAppSelector(getFavoritesProducts);
-  const favProductsId = favProducts.map((i) => i.id);
-  const isFavorite = favProductsId.includes(product.id);
-
-  const buttonClassName = isFavorite === true ? 'item-details__like-button item-details__like-button--active' : 'item-details__like-button';
-  const buttonText = isFavorite === true ? 'Добавить в избранное' : 'Удалить из избранного';
-  const data = {
-    productId: product.id,
-  };
   function handleClick() {
     if (authorizationStatus === AuthorizationStatus.Auth && isFavorite !== true) {
       dispatch(putFavoriteProductsAction(data));
@@ -49,7 +47,7 @@ function ProductDetails({ product, openReview, setOpenReview }: PropsType) {
     }
   }
 
-  function handleСloseReviewClick() {
+  function handleCloseReviewClick() {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       setOpenReview(!openReview);
     } else {
@@ -58,7 +56,7 @@ function ProductDetails({ product, openReview, setOpenReview }: PropsType) {
   }
 
   return (
-    <section className={`${ openReview ? 'item-details--form-open' : ''} item-details`} >
+    <section className={`${openReview ? 'item-details--form-open' : ''} item-details`} >
       <div className="container">
         <div className="item-details__wrapper">
           <div className="item-details__top-wrapper">
@@ -80,7 +78,7 @@ function ProductDetails({ product, openReview, setOpenReview }: PropsType) {
               <div className="star-rating star-rating--big">
                 {/* нормально рейтинг вывести не получиться, т.к. отзывы до 5 звезд, а с сервера приходят рейтинг больше 5, скорее всего до 10 */}
                 {STARS.map((star) => (
-                  <Rating key={star.id} rating={product.rating} star={star.rating} starId={star.id} />
+                  <Rating key={star.id} rating={product.rating} star={star.rating} />
                 ))}
                 <span className="star-rating__count">{Math.round(product.reviewCount)}</span>
               </div>
@@ -101,7 +99,7 @@ function ProductDetails({ product, openReview, setOpenReview }: PropsType) {
                   </svg>
                   <span className="visually-hidden">{buttonText}</span>
                 </button>
-                <button className="btn btn--second" type="button" onClick={handleСloseReviewClick}>
+                <button className="btn btn--second" type="button" onClick={handleCloseReviewClick}>
                   {openReview ? 'Отменить отзыв' : 'Оставить отзыв'}
                 </button>
               </div>

@@ -9,7 +9,6 @@ type StarsInputProps = {
 }
 
 function StarsInput({ onChange, starId, name, value, postStatus }: StarsInputProps) {
-
   return (
     <>
       <input
@@ -17,7 +16,7 @@ function StarsInput({ onChange, starId, name, value, postStatus }: StarsInputPro
         type="radio"
         name="rating"
         value={starId}
-        // aria-label={`${name} звезд`}
+        aria-label={`${name} звезд`}
         onChange={onChange}
         checked={starId === Number(value)}
         disabled={postStatus === Status.Loading}

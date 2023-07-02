@@ -18,7 +18,6 @@ function Login(): JSX.Element {
       <div className="login-page__header">
         <div className="login-page__img-wrap">
           <img className="login-page__img" src="img/svg/hero-keks.svg" width="727" height="569" alt="Картика кота." />
-
         </div>
       </div>
       <div className="login-page__content">

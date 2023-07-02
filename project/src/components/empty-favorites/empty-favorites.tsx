@@ -3,6 +3,7 @@ import { AppRoute } from '../../constants';
 
 function EmptyFavorites() {
   const navigate = useNavigate();
+
   return (
     <main>
       <h1 className="visually-hidden">Каталог товаров</h1>
@@ -32,7 +33,6 @@ function EmptyFavorites() {
             </div>
             <div className="empty-favorites__img-wrapper">
               <img src="img/svg/bg-keks-empty-favorites.svg" width="680" height="687" alt="Картика кота." />
-
             </div>
           </div>
         </div>

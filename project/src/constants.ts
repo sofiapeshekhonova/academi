@@ -1,6 +1,3 @@
-import { Product } from './types/product';
-import { ReviewsType } from './types/review';
-
 export enum AppRoute {
   logIn = '/logIn',
   Index = '/Index',
@@ -49,16 +46,6 @@ export enum RoomType {
   hotel = 'Hotel',
 }
 
-export const SortProducts = (arr: Product[]) => {
-  for (let i = arr.length - 1; i > 3; i--) {
-    const j = Math.floor(Math.random() * arr.length);
-    const temp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = temp;
-  }
-  return arr;
-};
-
 export const STARS = [
   { id: 5, rating: 0 },
   { id: 4, rating: 1 },
@@ -75,58 +62,21 @@ export const STARSS = [
   { id: 1, name: 'Rating 1' },
 ];
 
-export const SortRatingList = [
+export const SORT_RATING_LIST = [
   'Любой', 'Высокий', 'Низкий'
 ];
 
-export const SecondSortRatingList = [
+export const SECOND_SORT_RATING_LIST = [
   {id: 'first', className: 'filter-sort__sort-btn filter-sort__sort-btn--inc', name: 'сортировка по возрастанию'},
   {id: 'second', className: 'filter-sort__sort-btn filter-sort__sort-btn--desc', name: 'сортировка по убыванию'}
 ];
 
-export function SortDateComments(comments: ReviewsType[], sortListItem: string) {
-  switch (sortListItem) {
-    case 'first':
-      return comments.slice().sort((a, b) => a.isoDate < b.isoDate ? 1 : -1);
-    case 'second':
-      return comments.slice().sort((a, b) => a.isoDate > b.isoDate ? 1 : -1);
-    default:
-      return comments.slice().sort((a, b) => a.isoDate < b.isoDate ? 1 : -1);
-  }
-}
-export function SortCards(comments: ReviewsType[], sortListItem: string) {
-  switch (sortListItem) {
-    case SortRatingList[0]:
-      return comments;
-    case SortRatingList[1]:
-      return comments.slice().filter((i) => i.rating > 3);
-    case SortRatingList[2]:
-      return comments.slice().filter((i) => i.rating <= 3);
-    default:
-      return comments;
-  }
-}
+export const CATALOG_FITER_LIST = ['Бисквит', 'Десерт', 'Чизкейк', 'Песочное'];
+export const CATALOG_FITER_LIST_EN = ['bisque', 'dessert', 'cheesecake', 'shortbread'];
 
-export const CatalogFilterList = ['Бисквит', 'Десерт', 'Чизкейк', 'Песочное'];
-
-export function SortCatalog(products: Product[], sortListItem: string) {
-  switch (sortListItem) {
-    case CatalogFilterList[0]:
-      return products.slice().filter((i) => i.category === 'bisque');
-    case CatalogFilterList[1]:
-      return products.slice().filter((i) => i.category === 'dessert');
-    case CatalogFilterList[2]:
-      return products.slice().filter((i) => i.category === 'cheesecake');
-    case CatalogFilterList[3]:
-      return products.slice().filter((i) => i.category === 'shortbread');
-    default:
-      return products;
-  }
-}
-
-export const CatalogList = [
+export const CATALOG_LIST = [
   {
-    id: 1, name: 'Бисквит',
+    id: 1, name: CATALOG_FITER_LIST[0],
     type: [
       { ru: 'Вегетарианский', en: 'vegetarian' },
       { ru: 'Ваниль', en: 'vanilla' },
@@ -135,14 +85,14 @@ export const CatalogList = [
     ]
   },
   {
-    id: 2, name: 'Десерт',
+    id: 2, name: CATALOG_FITER_LIST[1],
     type: [
       { ru: 'Шоколадный', en: 'chocolate-muffin' },
       { ru: 'Фирменный', en: 'brand-muffin' }
     ]
   },
   {
-    id: 2, name: 'Чизкейк',
+    id: 2, name: CATALOG_FITER_LIST[2],
     type: [
       { ru: 'Шоколадный', en: 'chocolate' },
       { ru: 'Ваниль', en: 'vanilla' },
@@ -152,7 +102,7 @@ export const CatalogList = [
     ]
   },
   {
-    id: 2, name: 'Песочное',
+    id: 2, name: CATALOG_FITER_LIST[3],
     type: [
       { ru: 'Тарт', en: 'tart' },
       { ru: 'Муравейник', en: 'funnel-cake' },
@@ -206,3 +156,16 @@ export const CITY = {
   }
 };
 
+export const NUMBER_SHOWN_CARDS = 6;
+export const EMAIL_REGEX = /[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/;
+export const PASSWORD_REGEX = /\d+[a-zA-Z]+|[a-zA-Z]+\d+/;
+export const EMAIL_ERROR_TEXT = 'Введите валидную почту';
+export const PASSWORD_ERROR_TEXT = 'Пароль должен содержать одну буву и цифру';
+export const NAME_ERROR_TEXT = 'Имя Должно быть больше 1 буквы';
+export const NAME_REGEX = /^.{1,20}$/;
+export const IMG_REGEX = /^[^?#]+\.(png|jpg|jpe?g)([?#].*)?$/i;
+export const IMG_ERROR_TEXT = 'Загрузите валидное изображение png|jpg';
+export const COUNT_COMMENTS = 2;
+
+export const MIN_CHARACTERS = 2;
+export const MAX_CHARACTERS = 500;

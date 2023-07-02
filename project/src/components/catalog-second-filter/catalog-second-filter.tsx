@@ -1,4 +1,4 @@
-import { useRef} from 'react';
+import { useRef } from 'react';
 
 type PropsType = {
   itemRu: string;
@@ -8,10 +8,10 @@ type PropsType = {
 }
 
 function CatalogSecondFilter({ itemRu, itemEn, setFilter, filter }: PropsType) {
-
   const inputRef = useRef<HTMLInputElement>(null);
+
   const handlePushItem = () => {
-    if( inputRef.current !== null) {
+    if (inputRef.current !== null) {
       if (inputRef.current !== undefined && inputRef.current.checked) {
         setFilter(filter.concat(itemEn));
       } else {
@@ -31,7 +31,6 @@ function CatalogSecondFilter({ itemRu, itemEn, setFilter, filter }: PropsType) {
           ref={inputRef}
           checked={filter.includes(itemEn)}
           onChange={handlePushItem}
-          // defaultChecked={checked}
         />
         <label className="custom-toggle__label" htmlFor={itemRu}>{itemRu}</label>
       </div>

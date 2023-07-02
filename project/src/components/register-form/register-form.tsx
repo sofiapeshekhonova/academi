@@ -3,7 +3,7 @@ import { AuthDataRegister } from '../../types/auth-data';
 import { registrationAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getRegisterStatus } from '../../store/user/selectors';
-import { Status } from '../../constants';
+import { EMAIL_ERROR_TEXT, EMAIL_REGEX, IMG_ERROR_TEXT, IMG_REGEX, NAME_ERROR_TEXT, NAME_REGEX, PASSWORD_ERROR_TEXT, PASSWORD_REGEX, Status } from '../../constants';
 
 type Props = {
   value: string;
@@ -24,30 +24,30 @@ function RegisterForm() {
     email: {
       value: '',
       isValid: false,
-      error: 'Введите валидную почту',
-      regex: /[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/,
+      error: EMAIL_ERROR_TEXT,
+      regex: EMAIL_REGEX,
       hasValue: false,
     },
     password: {
       value: '',
       isValid: false,
-      error: 'Пароль должен содержать одну буву и цифру',
-      regex: /\d+[a-zA-Z]+|[a-zA-Z]+\d+/,
+      error: PASSWORD_ERROR_TEXT,
+      regex: PASSWORD_REGEX,
       hasValue: false,
     },
     name: {
       value: '',
       isValid: false,
-      error: 'Должно быть больше 1 буквы',
-      regex: /^.{1,20}$/,
+      error: NAME_ERROR_TEXT,
+      regex: NAME_REGEX,
       hasValue: false,
     },
     img: {
       value: '',
       isValid: false,
-      error: 'Загрузите валидное изображение png|jpg',
+      error: IMG_ERROR_TEXT,
       // Для загрузки доступно изображение не более 100 на 100 пикселей, размер менее 1 мб
-      regex: /^[^?#]+\.(png|jpg|jpe?g)([?#].*)?$/i,
+      regex: IMG_REGEX,
       //'~https?://[\S.]+(?:jpg|jpeg|png)\b~'
       hasValue: false,
     },
@@ -77,13 +77,14 @@ function RegisterForm() {
       img: formValue.img.value
     });
   }
+
   const errorEmail = !formValue.email.isValid && formValue.email.hasValue;
   const errorName = !formValue.name.isValid && formValue.name.hasValue;
   const errorPassword = !formValue.password.isValid && formValue.password.hasValue;
   //const errorEmail = !formValue.email.isValid && formValue.email.hasValue;
-  return(
+  return (
     <form action="#" method="post" autoComplete="off" onSubmit={handleSubmit}>
-      <p style={{color: 'red'}}>{registerStatus === Status.Failed && 'Что-то пошло не так'}</p>
+      <p style={{ color: 'red' }}>{registerStatus === Status.Failed && 'Что-то пошло не так'}</p>
       <div className="register-page__fields">
         <div className="custom-input register-page__field">
           <label>
@@ -102,7 +103,7 @@ function RegisterForm() {
         <div className="custom-input register-page__field">
           <label>
             <span className={`${errorEmail ? 'custom-input__message' : 'custom-input__label'}`} style={{ paddingRight: '30px' }}>
-              {errorEmail ? formValue.email.error : 'Введите вашу почту'}
+              {errorEmail ? formValue.email.error : EMAIL_ERROR_TEXT}
             </span>
             <input
               type="email" name="email"
@@ -115,7 +116,7 @@ function RegisterForm() {
         <div className="custom-input register-page__field">
           <label>
             <span className={`${errorPassword ? 'custom-input__message' : 'custom-input__label'}`} style={{ paddingRight: '30px' }}>
-              {errorPassword ? formValue.password.error : 'Введите ваш пароль'}
+              {errorPassword ? formValue.password.error : PASSWORD_ERROR_TEXT}
             </span>
             <input type="password" name="password"
               placeholder="Пароль" required
@@ -140,7 +141,7 @@ function RegisterForm() {
       </div>
       <button className="btn register-page__btn btn--large" type="submit"
         disabled={!(formValue.email.isValid && formValue.password.isValid && formValue.name.isValid)
-         || registerStatus === Status.Loading || registerStatus === Status.Failed}
+          || registerStatus === Status.Loading || registerStatus === Status.Failed}
       >
         {registerStatus === Status.Loading ? 'Загрузка..' : 'Зарегистрироваться'}
       </button>

@@ -1,8 +1,9 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
+import HistoryRouter from '../history-route/history-route';
+import PrivateRoute from '../private-route/private-route';
+import browserHistory from '../../browser-history';
 import { AppRoute } from '../../constants';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
-import HistoryRouter from '../history-route/history-route';
-import browserHistory from '../../browser-history';
 import Index from '../../pages/index';
 import Login from '../../pages/login/login';
 import Catalog from '../../pages/catalog/catalog';
@@ -11,7 +12,6 @@ import Favourites from '../../pages/favourites/favourites';
 import RegisterPage from '../../pages/register-page/register-page';
 import { useAppSelector } from '../../hooks';
 import { getAuthorizationStatus } from '../../store/user/selectors';
-import PrivateRoute from '../private-route/private-route';
 
 function App(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);

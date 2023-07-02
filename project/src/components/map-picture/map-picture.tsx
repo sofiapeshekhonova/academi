@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
-import { CITY, MAP_MAPKER, MAP_MAPKER_SECOND, PLACES } from '../../constants';
 import { BaseIconOptions, Icon, Marker } from 'leaflet';
-import useMap from '../../hooks/useMap';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { CITY, MAP_MAPKER, MAP_MAPKER_SECOND, PLACES } from '../../constants';
+import useMap from '../../hooks/useMap';
 
 function createIcon(icon: string): BaseIconOptions {
   return {
@@ -40,7 +40,6 @@ function MapPicture({ activeLink }: MapScreenProps): JSX.Element {
         if (place.id === activeLink) {
           marker.addTo(markers);
         }
-
       });
       markers.addTo(map);
     }

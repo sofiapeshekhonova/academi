@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Namespace, SortRatingList } from '../../constants';
+import { Namespace, SECOND_SORT_RATING_LIST, SORT_RATING_LIST } from '../../constants';
 
 type InitialState = {
   rating: string;
@@ -8,9 +8,9 @@ type InitialState = {
 };
 
 const initialState: InitialState = {
-  rating: SortRatingList[0],
-  date: 'first',
-  type: 'null',
+  rating: SORT_RATING_LIST[0],
+  date: SECOND_SORT_RATING_LIST[0].id,
+  type: '',
 };
 
 export const appProcess = createSlice({

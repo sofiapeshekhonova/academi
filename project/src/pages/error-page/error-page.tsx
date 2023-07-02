@@ -8,7 +8,6 @@ function ErrorPage(): JSX.Element {
           <p className="error-loading__help">Попробуйте перезагрузить страницу или обратитесь к&nbsp;администратору сайта.</p>
           <div className="error-loading__image">
             <img src="img/svg/cake-load.svg" width="157" height="184" alt="Кекс." />
-
           </div>
         </div>
       </section>

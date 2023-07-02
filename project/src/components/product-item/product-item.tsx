@@ -19,12 +19,12 @@ function ProductItem({ product }: Props) {
   const favProducts = useAppSelector(getFavoritesProducts);
   const favProductsId = favProducts.map((i) => i.id);
   const isFavorite = favProductsId.includes(product.id);
-
   const buttonClassName = isFavorite === true ? 'card-item__favorites card-item__favorites--active' : 'card-item__favorites';
   const buttonText = isFavorite === true ? 'Добавить в избранное' : 'Удалить из избранного';
   const data = {
     productId: product.id,
   };
+
   function handleClick() {
     if (authorizationStatus === AuthorizationStatus.Auth && isFavorite !== true) {
       dispatch(putFavoriteProductsAction(data));
@@ -42,9 +42,7 @@ function ProductItem({ product }: Props) {
           <div className="card-item__img-wrapper">
             <picture>
               <source type="image/webp" srcSet={product.previewImageWebp} />
-              {/* <source type="image/webp" srcSet="img/content/blueberry-cake.webp, img/content/blueberry-cake@2x.webp 2x" /> */}
               <img src={product.previewImageWebp}
-                // srcSet="img/content/blueberry-cake@2x.jpg 2x"
                 srcSet={product.previewImageWebp} width="241" height="245" alt={product.title}
               />
             </picture>
