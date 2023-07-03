@@ -1,10 +1,10 @@
-import {AxiosInstance} from 'axios';
-import {createAsyncThunk} from '@reduxjs/toolkit';
-import {AppDispatch, State} from '../types/state.js';
+import { AxiosInstance } from 'axios';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AppDispatch, State } from '../types/state.js';
 import { APIRoute, AppRoute } from '../constants';
 import { ActiveProduct, FavoritesProducts, Product } from '../types/product.js';
 import { CommentType, ReviewsPostType, ReviewsType } from '../types/review.js';
-import { UserData } from '../types/user.js';
+import { UserAvatar, UserData } from '../types/user.js';
 import { AuthData, AuthDataRegister } from '../types/auth-data.js';
 import { dropToken, saveToken } from '../services/token';
 import { redirectToRoute } from './action';
@@ -15,8 +15,8 @@ export const fetchProductsAction = createAsyncThunk<Product[], undefined, {
   extra: AxiosInstance;
 }>(
   'data/fetchProducts',
-  async (_arg, {extra: api}) => {
-    const {data} = await api.get<Product[]>(APIRoute.Products);
+  async (_arg, { extra: api }) => {
+    const { data } = await api.get<Product[]>(APIRoute.Products);
     return data;
   },
 );
@@ -70,15 +70,37 @@ export const checkAuthAction = createAsyncThunk<UserData, undefined, {
   }
 );
 
-export const registrationAction = createAsyncThunk<UserData, AuthDataRegister, {
+export const registrationAction = createAsyncThunk<UserData | undefined, AuthDataRegister, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/registration',
-  async ({ email, password, name}, {dispatch, extra: api }) => {
+  async ({ email, password, name, avatar }, { dispatch, extra: api }) => {
     const { data } = await api.post<UserData>(APIRoute.Registration, { email, password, name });
     saveToken(data.token);
+    if (avatar) {
+      dispatch(avatarLoadAction(avatar));
+    } else {
+      toast.success('Регистрация прошла успешно',
+        { position: toast.POSITION.TOP_RIGHT });
+      dispatch(redirectToRoute(AppRoute.logIn));
+      return data;
+    }
+
+  },
+);
+export const avatarLoadAction = createAsyncThunk<UserAvatar, File, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/avatar',
+  async (avatar, { dispatch, extra: api }) => {
+    const formdata = new FormData();
+    formdata.append('avatar', avatar);
+    const { data } = await api.post<UserAvatar>(APIRoute.Avatar, formdata);
+    // saveToken(data.token);
     toast.success('Регистрация прошла успешно',
       {position: toast.POSITION.TOP_RIGHT});
     dispatch(redirectToRoute(AppRoute.logIn));
@@ -86,13 +108,31 @@ export const registrationAction = createAsyncThunk<UserData, AuthDataRegister, {
   },
 );
 
+// export const avatarLoadAction = createAsyncThunk<UserAvatar, AuthDataAvatar, {
+//   dispatch: AppDispatch;
+//   state: State;
+//   extra: AxiosInstance;
+// }>(
+//   'user/avatar',
+//   async ({ email, password, name, avatarUrl}, {dispatch, extra: api }) => {
+//     //console.log(avatarUrl)
+//     const { data } = await api.post<UserAvatar>(APIRoute.Avatar, { email, password, name, avatarUrl });
+
+//     saveToken(data.token);
+//     // toast.success('Регистрация прошла успешно',
+//     //   {position: toast.POSITION.TOP_RIGHT});
+//     // dispatch(redirectToRoute(AppRoute.logIn));
+//     return data;
+//   },
+// );
+
 export const loginAction = createAsyncThunk<UserData, AuthData, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/login',
-  async ({ email, password }, {dispatch, extra: api }) => {
+  async ({ email, password }, { dispatch, extra: api }) => {
     const { data } = await api.post<UserData>(APIRoute.Login, { email, password });
     saveToken(data.token);
     dispatch(fetchFavoritesProductsAction());
@@ -106,7 +146,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance;
 }>(
   'user/logout',
-  async (_arg, { dispatch ,extra: api }) => {
+  async (_arg, { dispatch, extra: api }) => {
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(redirectToRoute(AppRoute.Index));
@@ -130,7 +170,7 @@ export const putFavoriteProductsAction = createAsyncThunk<Product, FavoritesProd
   extra: AxiosInstance;
 }>(
   'product/putFavoriteProducts',
-  async ({productId }, { dispatch, extra: api }) => {
+  async ({ productId }, { dispatch, extra: api }) => {
     const { data } = await api.put<Product>(`${APIRoute.Favorites}/${productId}`);
     dispatch(fetchFavoritesProductsAction());
     return data;
@@ -143,7 +183,7 @@ export const deleteFavoriteProductsAction = createAsyncThunk<Product, FavoritesP
   extra: AxiosInstance;
 }>(
   'product/deleteFavoriteProducts',
-  async ({productId }, { dispatch, extra: api }) => {
+  async ({ productId }, { dispatch, extra: api }) => {
     const { data } = await api.delete<Product>(`${APIRoute.DeleteFavorites}/${productId}`);
     dispatch(fetchFavoritesProductsAction());
     return data;

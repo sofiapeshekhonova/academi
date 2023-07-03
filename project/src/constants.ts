@@ -22,6 +22,7 @@ export enum APIRoute {
   Login = 'users/login',
   Logout = 'users/logout',
   Registration = 'users/registration',
+  Avatar = '/users/upload',
   Favorites = 'favorites',
   DeleteFavorites = 'favorites'
 }

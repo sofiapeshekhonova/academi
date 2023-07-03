@@ -3,5 +3,12 @@ export type UserData = {
   email: string;
   token: string;
   name: string;
-  avatarUrl: string;
+  avatar?: File;
+  avatarUrl?: string;
+}
+
+export type UserAvatar = {
+  token: string;
+  avatar?: File;
+  avatarUrl?: string;
 }

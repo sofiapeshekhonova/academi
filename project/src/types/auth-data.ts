@@ -7,5 +7,9 @@ export type AuthDataRegister = {
   email: string;
   password: string;
   name: string;
-  img: string;
+  avatar?: File;
+};
+
+export type AuthDataAvatar = {
+  avatar: File;
 };

@@ -8,7 +8,7 @@ type InitialState = {
   status: Status;
   userInformation: UserData | null;
   statusRegistration: Status;
-  userRegistrationInformation: UserData | null;
+  userRegistrationInformation: UserData | null | undefined;
 };
 
 const initialState: InitialState = {
