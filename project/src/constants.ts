@@ -165,7 +165,7 @@ export const PASSWORD_ERROR_TEXT = 'Пароль должен содержать
 export const NAME_ERROR_TEXT = 'Имя Должно быть больше 1 буквы';
 export const NAME_REGEX = /^.{1,20}$/;
 export const IMG_REGEX = /^[^?#]+\.(png|jpg|jpe?g)([?#].*)?$/i;
-export const IMG_ERROR_TEXT = 'Загрузите валидное изображение png|jpg';
+export const IMG_ERROR_TEXT = 'не более 100 на 100 пикселей, размер менее 1 мб';
 export const COUNT_COMMENTS = 2;
 
 export const MIN_CHARACTERS = 2;

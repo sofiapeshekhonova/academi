@@ -100,31 +100,12 @@ export const avatarLoadAction = createAsyncThunk<UserAvatar, File, {
     const formdata = new FormData();
     formdata.append('avatar', avatar);
     const { data } = await api.post<UserAvatar>(APIRoute.Avatar, formdata);
-    // saveToken(data.token);
     toast.success('Регистрация прошла успешно',
       {position: toast.POSITION.TOP_RIGHT});
     dispatch(redirectToRoute(AppRoute.logIn));
     return data;
   },
 );
-
-// export const avatarLoadAction = createAsyncThunk<UserAvatar, AuthDataAvatar, {
-//   dispatch: AppDispatch;
-//   state: State;
-//   extra: AxiosInstance;
-// }>(
-//   'user/avatar',
-//   async ({ email, password, name, avatarUrl}, {dispatch, extra: api }) => {
-//     //console.log(avatarUrl)
-//     const { data } = await api.post<UserAvatar>(APIRoute.Avatar, { email, password, name, avatarUrl });
-
-//     saveToken(data.token);
-//     // toast.success('Регистрация прошла успешно',
-//     //   {position: toast.POSITION.TOP_RIGHT});
-//     // dispatch(redirectToRoute(AppRoute.logIn));
-//     return data;
-//   },
-// );
 
 export const loginAction = createAsyncThunk<UserData, AuthData, {
   dispatch: AppDispatch;

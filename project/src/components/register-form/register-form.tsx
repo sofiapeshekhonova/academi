@@ -1,39 +1,15 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { AuthDataRegister } from '../../types/auth-data';
 import { registrationAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getRegisterStatus } from '../../store/user/selectors';
 import { EMAIL_ERROR_TEXT, EMAIL_REGEX, IMG_ERROR_TEXT, IMG_REGEX, NAME_ERROR_TEXT, NAME_REGEX, PASSWORD_ERROR_TEXT, PASSWORD_REGEX, Status } from '../../constants';
+import { FormProps } from '../../types/form';
 
-
-type Props = {
-  value: string;
-  error: string;
-  regex: RegExp;
-  isValid: boolean;
-  hasValue: boolean;
-  text?: File | null;
-}
-
-type FormProps = {
-  [key: string]: Props;
-}
-
-// type PropsAvatar = {
-//   value: string;
-//   text: File | null;
-//   error: string;
-//   regex: RegExp;
-//   isValid: boolean;
-//   hasValue: boolean;
-// }
-
-// type FormPropsAvatar = {
-//   [key: string]: PropsAvatar;
-// }
 function RegisterForm() {
   const dispatch = useAppDispatch();
   const registerStatus = useAppSelector(getRegisterStatus);
+  const [avatarMistake, setAvatarMistake] = useState();
 
   const [formValue, setFormValue] = useState<FormProps>({
     email: {
@@ -62,29 +38,43 @@ function RegisterForm() {
       text: null,
       isValid: false,
       error: IMG_ERROR_TEXT,
-      // Для загрузки доступно изображение не более 100 на 100 пикселей, размер менее 1 мб
       regex: IMG_REGEX,
       hasValue: false,
     },
   });
 
-  // const [formAvatar, setFormformAvatar] = useState<FormPropsAvatar>({
-  //   file: {
-  //     value: '',
-  //     text: null,
-  //     isValid: false,
-  //     error: IMG_ERROR_TEXT,
-  //     // Для загрузки доступно изображение не более 100 на 100 пикселей, размер менее 1 мб
-  //     regex: IMG_REGEX,
-  //     hasValue: false,
-  //   },
-  // });
+  const ValidateImg = (file: Blob) => {
+    const img = new Image();
+    img.src = window.URL.createObjectURL(file);
+    img.onload = () => {
+      if (img.width === 100 && img.height === 100) {
+        //alert("Correct size");
+        return true;
+      }
+      console.log('sdfd')
+      setAvatarMistake('sdfsd')
+      alert("Incorrect size");
+      return true;
+    };
+  };
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
-    const isValid = formValue[name].regex.test(value);
+    let isValid = formValue[name].regex.test(value);
     const hasValue = !!value.trim();
+    ValidateImg(e.target.files[0]);
     if (e.target.files) {
+      if (name === 'file') {
+        // const img = new Image();
+        // img.src = window.URL.createObjectURL(e.target.files[0]);
+        // img.onload = () => {
+
+        //  () => { setAvatarMistake(true) }
+        //   setAvatarMistake(true);
+        // };
+        console.log(avatarMistake)
+        isValid = formValue[name].regex.test(value) && e.target.files[0]['size'] < 1000000;
+      }
       setFormValue({
         ...formValue,
         [name]: { ...formValue[name], value, isValid, hasValue, text: e.target.files[0] },
@@ -96,33 +86,6 @@ function RegisterForm() {
       });
     }
   }
-
-
-  // function handleAvatarChange(e: ChangeEvent<HTMLInputElement>) {
-  //   const { name, value } = e.target;
-  //   if (e.target.files) {
-  //     setFormformAvatar({
-  //       ...formAvatar,
-  //       [name]: { ...formAvatar[name], text: e.target.files[0], value },
-  //     });
-  //   }
-  //   // const { name} = e.target;
-  //   // const isValid = formAvatar[name].regex.test(value);
-  //   // const hasValue = !!value.trim();
-
-  //   // if( e.target.name === 'file') {
-  //   //   // const file = new Image();
-  //   //   // console.log(formValue.file.value.width)
-  //   //   //isValid = formValue.name.value.length > 10;
-  //   //   //isValid = file.width < 100 || file.height < 100;
-  //   // }
-
-  //   // setFormformAvatar({
-  //   //   ...formAvatar,
-  //   //   [name]: { ...formAvatar[name], value, isValid, hasValue },
-  //   // });
-  // }
-
   const onSubmit = (authData: AuthDataRegister) => {
     dispatch(registrationAction(authData));
   };
@@ -130,9 +93,6 @@ function RegisterForm() {
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (formValue.file.text) {
-      // const formdata = new FormData();
-      // formdata.append('avatar', formAvatar.file.text);
-      //dispatch(avatarLoadAction(formdata));
       onSubmit({
         email: formValue.email.value,
         password: formValue.password.value,
@@ -151,7 +111,8 @@ function RegisterForm() {
   const errorEmail = !formValue.email.isValid && formValue.email.hasValue;
   const errorName = !formValue.name.isValid && formValue.name.hasValue;
   const errorPassword = !formValue.password.isValid && formValue.password.hasValue;
-  //const errorEmail = !formValue.email.isValid && formValue.email.hasValue;
+  const errorFile = !formValue.file.isValid && formValue.file.hasValue;
+
   return (
     <form action="#" method="post" autoComplete="off" onSubmit={handleSubmit} noValidate>
       <p style={{ color: 'red' }}>{registerStatus === Status.Failed && 'Что-то пошло не так'}</p>
@@ -196,18 +157,10 @@ function RegisterForm() {
             />
           </label>
         </div>
-        {/* <div className={`custom-input ${formAvatar.file.value && 'file-selected'}`}>
-          <label>
-            <span className="custom-input__label">Загрузите аватар</span>
-            <input type="file"
-              name="file"
-              value={formAvatar.file.value}
-              data-text="Аватар"
-              accept="image/jpeg"
-              onChange={handleAvatarChange}
-            />
-          </label> */}
         <div className={`custom-input ${formValue.file.value && 'file-selected'}`}>
+          <span className={`${errorFile ? 'custom-input__message' : 'custom-input__label'}`} style={{ paddingRight: '30px' }}>
+            {errorFile ? formValue.file.error : IMG_ERROR_TEXT}
+          </span>
           <label>
             <span className="custom-input__label">Загрузите аватар</span>
             <input type="file" name="file" value={formValue.file.value} data-text="Аватар" accept="image/jpeg" onChange={handleChange} />
@@ -216,7 +169,7 @@ function RegisterForm() {
       </div>
       <button className="btn register-page__btn btn--large" type="submit"
         disabled={!(formValue.email.isValid && formValue.password.isValid && formValue.name.isValid)
-        || registerStatus === Status.Loading || registerStatus === Status.Failed}
+          || registerStatus === Status.Loading || registerStatus === Status.Failed}
       >
         {registerStatus === Status.Loading ? 'Загрузка..' : 'Зарегистрироваться'}
       </button>
