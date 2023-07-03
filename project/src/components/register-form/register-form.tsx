@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import { AuthDataRegister } from '../../types/auth-data';
 import { registrationAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -9,7 +9,7 @@ import { FormProps } from '../../types/form';
 function RegisterForm() {
   const dispatch = useAppDispatch();
   const registerStatus = useAppSelector(getRegisterStatus);
-  const [avatarMistake, setAvatarMistake] = useState();
+  const [, setAvatarMistake] = useState('');
 
   const [formValue, setFormValue] = useState<FormProps>({
     email: {
@@ -43,42 +43,40 @@ function RegisterForm() {
     },
   });
 
-  const ValidateImg = (file: Blob) => {
-    const img = new Image();
-    img.src = window.URL.createObjectURL(file);
-    img.onload = () => {
-      if (img.width === 100 && img.height === 100) {
-        //alert("Correct size");
-        return true;
-      }
-      console.log('sdfd')
-      setAvatarMistake('sdfsd')
-      alert("Incorrect size");
-      return true;
-    };
-  };
+  function validateFile(image: Blob) {
+    return new Promise((mistake) => {
+      const img = new Image();
+      img.src = URL.createObjectURL(image);
+      img.onload = () => {
+        if (img.height > 100 || img.width > 100) {
+          mistake('Ошибка');
+        }
+      };
+    });
+  }
+
+  const validateCallback = useCallback(async (file: Blob) => {
+    const fileError = await validateFile(file);
+    if(fileError === 'Ошибка') {
+      setAvatarMistake('Ошибка');
+    }
+  }, []);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     let isValid = formValue[name].regex.test(value);
     const hasValue = !!value.trim();
-    ValidateImg(e.target.files[0]);
+
     if (e.target.files) {
       if (name === 'file') {
-        // const img = new Image();
-        // img.src = window.URL.createObjectURL(e.target.files[0]);
-        // img.onload = () => {
-
-        //  () => { setAvatarMistake(true) }
-        //   setAvatarMistake(true);
-        // };
-        console.log(avatarMistake)
-        isValid = formValue[name].regex.test(value) && e.target.files[0]['size'] < 1000000;
+        validateCallback(e.target.files[0]);
+        isValid = formValue[name].regex.test(value) && e.target.files[0]['size'] < 100000;
+        setFormValue({
+          ...formValue,
+          [name]: { ...formValue[name], value, isValid, hasValue, text: e.target.files[0] },
+        });
       }
-      setFormValue({
-        ...formValue,
-        [name]: { ...formValue[name], value, isValid, hasValue, text: e.target.files[0] },
-      });
+
     } else {
       setFormValue({
         ...formValue,
@@ -168,8 +166,8 @@ function RegisterForm() {
         </div>
       </div>
       <button className="btn register-page__btn btn--large" type="submit"
-        disabled={!(formValue.email.isValid && formValue.password.isValid && formValue.name.isValid)
-          || registerStatus === Status.Loading || registerStatus === Status.Failed}
+        disabled={!(formValue.email.isValid && formValue.password.isValid && formValue.name.isValid && formValue.file.isValid)
+          || registerStatus === Status.Loading }
       >
         {registerStatus === Status.Loading ? 'Загрузка..' : 'Зарегистрироваться'}
       </button>
