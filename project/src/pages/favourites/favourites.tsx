@@ -1,8 +1,23 @@
+import EmptyFavorites from '../../components/empty-favorites/empty-favorites';
+import FoolFavorites from '../../components/fool-favorites/fool-favorites';
+import ErrorPage from '../error-page/error-page';
+import Layout from '../../components/layout/layout';
+import { Status } from '../../constants';
+import { useAppSelector } from '../../hooks';
+import { getFavoritesProducts, getFavoritesStatus } from '../../store/products/selectors';
+
 function Favourites(): JSX.Element {
+  const favProducts = useAppSelector(getFavoritesProducts);
+  const favProductsStatus = useAppSelector(getFavoritesStatus);
+
+  if (favProductsStatus === Status.Failed) {
+    return <ErrorPage />;
+  }
+
   return (
-    <div className="error-screen">
-      <h1 className='error-screen__title'>Ошибка при загрузке фильма</h1>
-    </div>
+    <Layout title='- Избранное'>
+      {favProducts.length > 0 ? <FoolFavorites /> : <EmptyFavorites />}
+    </Layout>
   );
 }
 
