@@ -4,7 +4,7 @@
 Дипломный Проект в рамках обучения в html academy. Кондитерская Кекс — интернет-магазин десертов: тортов, пирожных. Пользователи сайта могут регистрироваться, добавлять товар в избранное, оставлять комментарии и оценивать вкусности.
 
 #### Ссылка на сайт: https://keks-project-1.vercel.app/Index
- 
+![Иллюстрация к проекту](https://up.htmlacademy.ru/assets/intensives/react/12/grading/projects/keks/image.jpg)
  
 **Языки:** html JS React Redux
 ***
