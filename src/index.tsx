@@ -4,12 +4,13 @@ import { ToastContainer } from 'react-toastify';
 import App from './components/app/app';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import { checkAuthAction, fetchFavoritesProductsAction, fetchProductsAction } from './store/api-actions';
+import { checkAuthAction, fetchFavoritesProductsAction, fetchLastProductCommentsAction, fetchProductsAction } from './store/api-actions';
 import 'react-toastify/dist/ReactToastify.css';
 
 store.dispatch(fetchProductsAction());
 store.dispatch(checkAuthAction());
 store.dispatch(fetchFavoritesProductsAction());
+store.dispatch(fetchLastProductCommentsAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

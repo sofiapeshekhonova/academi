@@ -9,7 +9,6 @@ import { SortProductsRandom } from '../../untils/sort-products';
 import { getProducts, getStatus } from '../../store/products/selectors';
 import LastReview from '../../components/last-review/last-review';
 
-
 function Index(): JSX.Element {
   const products = useAppSelector(getProducts);
   const productsCopy = products.slice(0);
@@ -39,11 +38,7 @@ function Index(): JSX.Element {
             {productsStatus === Status.Loading ? <LoadingScreen /> : <RandomProductsList products={sortedProducts} />}
           </div>
         </section>
-        {/* т.к. сортирова по дате не возможна 1. у вас с сервера все коментарии приходят с одинаковой датой 2. нет общего списка коментариев,
-          да, можно было взять все id, сложить их в массив один и идти по массиву и отправлять запросы на сервер, затем сложить все коментарии в общий массив
-          но это займент слишком много времени, особенно если товаров тысячи
-          поэтому я взяла рандомный товар и достала у него коментарий, если коментария нет, то перутся данные из констант */}
-        {productsStatus === Status.Success ? <LastReview product={sortedProducts[0]}/> : ''}
+        <LastReview />
         <Map />
       </main>
     </Layout>

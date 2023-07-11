@@ -166,7 +166,7 @@ function RegisterForm() {
         </div>
       </div>
       <button className="btn register-page__btn btn--large" type="submit"
-        disabled={!(formValue.email.isValid && formValue.password.isValid && formValue.name.isValid && formValue.file.isValid)
+        disabled={!(formValue.email.isValid && formValue.password.isValid && formValue.name.isValid && !errorFile)
           || registerStatus === Status.Loading }
       >
         {registerStatus === Status.Loading ? 'Загрузка..' : 'Зарегистрироваться'}

@@ -45,7 +45,6 @@ function ProductPage(): JSX.Element {
 
 
   const sortedRatingsComments = SortRatingComments(comments, selectedSortItem);
-  //сортировка по дате она работает, НО С СЕРВЕРА ПРИХОДЯТ ОДИНАКОВЫЕ ДАТЫ
   const sortedComments = SortDateComments(sortedRatingsComments, selectedSortItemSecond);
 
   const showComments = () => {
