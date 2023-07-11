@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Namespace, Status } from '../../constants';
-import { fetchProductCommentsAction, postProductCommentsAction } from '../api-actions';
+import { fetchLastProductCommentsAction, fetchProductCommentsAction, postProductCommentsAction } from '../api-actions';
 import { ReviewsPostType, ReviewsType } from '../../types/review';
 
 export type ProductData = {
@@ -8,13 +8,17 @@ export type ProductData = {
   comments: ReviewsType[];
   comment: ReviewsPostType[];
   commentStatus: Status;
+  LastCommentStatus: Status;
+  lastComment: ReviewsType | null;
 };
 
 const initialState: ProductData = {
   commentsStatus: Status.Idle,
   comments: [],
   comment: [],
+  lastComment: null,
   commentStatus: Status.Idle,
+  LastCommentStatus: Status.Idle,
 };
 
 export const comments = createSlice({
@@ -42,6 +46,16 @@ export const comments = createSlice({
       })
       .addCase(postProductCommentsAction.rejected, (state) => {
         state.commentStatus = Status.Failed;
+      })
+      .addCase(fetchLastProductCommentsAction.pending, (state) => {
+        state.LastCommentStatus = Status.Loading;
+      })
+      .addCase(fetchLastProductCommentsAction.fulfilled, (state, action) => {
+        state.LastCommentStatus = Status.Success;
+        state.lastComment = action.payload;
+      })
+      .addCase(fetchLastProductCommentsAction.rejected, (state) => {
+        state.LastCommentStatus = Status.Failed;
       });
   }
 });

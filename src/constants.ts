@@ -24,7 +24,8 @@ export enum APIRoute {
   Registration = 'users/registration',
   Avatar = '/users/upload',
   Favorites = 'favorites',
-  DeleteFavorites = 'favorites'
+  DeleteFavorites = 'favorites',
+  LastReview = 'reviews/getLast'
 }
 
 export enum AuthorizationStatus {

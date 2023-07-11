@@ -43,6 +43,17 @@ export const fetchProductCommentsAction = createAsyncThunk<ReviewsType[], string
   }
 );
 
+export const fetchLastProductCommentsAction = createAsyncThunk<ReviewsType, undefined, {
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'comments/fetchLastProductCommentsAction',
+  async (_arg, { extra: api }) => {
+    const { data } = await api.get<ReviewsType>(APIRoute.LastReview);
+    return data;
+  }
+);
+
 export const postProductCommentsAction = createAsyncThunk<ReviewsPostType[], CommentType, {
   dispatch: AppDispatch;
   state: State;
@@ -87,9 +98,9 @@ export const registrationAction = createAsyncThunk<UserData | undefined, AuthDat
       dispatch(redirectToRoute(AppRoute.logIn));
       return data;
     }
-
   },
 );
+
 export const avatarLoadAction = createAsyncThunk<UserAvatar, File, {
   dispatch: AppDispatch;
   state: State;

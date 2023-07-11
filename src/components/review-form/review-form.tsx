@@ -33,20 +33,14 @@ function ReviewForm({ roomId, setOpenReview, openReview }: PropsType) {
     setForm(false);
   }
 
-  // ТАКУЮ ВАЛИДАЦИЮ НУЖНО ДЕЛАТЬ ПО ВАШИМ УСЛОВИЯМ, НО ОНА НЕ ПРОХОДИТ, Т.к. ваш север простит ОБА поля заполненны при любом рейтинге
-  // const disabled = () => {
-  //   if (formData.rating > 3) {
-  //     return formData.positive.length <= MIN_CHARACTERS || formData.rating === 0 || formData.positive.length >= MAX_CHARACTERS || postStatus === Status.Loading;
-  //   } else if(formData.rating < 4) {
-  //     return formData.negative.length <= MIN_CHARACTERS || formData.rating === 0 || formData.negative.length >= MAX_CHARACTERS || postStatus === Status.Loading;
-  //   }
-  // };
+  const disabled = () => {
+    if (formData.rating > 3) {
+      return formData.positive.length <= MIN_CHARACTERS || formData.rating === 0 || formData.positive.length >= MAX_CHARACTERS || postStatus === Status.Loading;
+    } else if(formData.rating < 4) {
+      return formData.negative.length <= MIN_CHARACTERS || formData.rating === 0 || formData.negative.length >= MAX_CHARACTERS || postStatus === Status.Loading;
+    }
+  };
 
-  //  РАБОЧАЯ ВАЛИДАЦИЯ ДЛЯ ВАШЕГО СЕРВЕРА
-  const disabled = () => formData.negative.length <= MIN_CHARACTERS ||
-    formData.positive.length <= MIN_CHARACTERS || formData.rating === 0 ||
-    formData.negative.length >= MAX_CHARACTERS || formData.positive.length >= MAX_CHARACTERS ||
-    postStatus === Status.Loading;
 
   useEffect(() => {
     if (postStatus === Status.Success && form === false) {
@@ -55,7 +49,6 @@ function ReviewForm({ roomId, setOpenReview, openReview }: PropsType) {
     }
 
   }, [postStatus, formData.rating, setOpenReview]);
-
 
   return (
     <section className="review-form">
@@ -111,7 +104,9 @@ function ReviewForm({ roomId, setOpenReview, openReview }: PropsType) {
                   </button>
                 </div>
                 <p style={{ color: 'red' }}>
-                  Для отправки ревью необходимо поставить <b> рейтинг </b> и заполнить оба поля <b>{MIN_CHARACTERS} символами</b>.
+                  Для отправки ревью необходимо поставить <b> рейтинг </b>
+                  {formData.rating < 4 && formData.rating !== 0 && ` и заполнить поле "Недостатки" ${MIN_CHARACTERS} символами`}
+                  {formData.rating > 3 && `и заполнить поле "Достоинства" ${MIN_CHARACTERS} символами`}
                 </p>
                 {postStatus === Status.Failed && <p>Something gooing wrong...</p>}
               </div>
